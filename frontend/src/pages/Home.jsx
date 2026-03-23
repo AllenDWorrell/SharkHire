@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 function Home() {
   return (
     <div className="hero">
-      <h1>SharkHire 🦈</h1>
+      <h1>SharkHire🦈</h1>
       <p>
         Your central hub for Nova Southeastern University student employment.
         Discover NSE and Federal Work-Study opportunities, apply, and track your progress.

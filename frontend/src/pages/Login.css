@@ -1,0 +1,151 @@
+/* Global Styles for SharkHire login page */
+
+/* Makes image background cover the entire page and centers the login card */
+.login-page {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)),
+                    url('/nsu_img.jpeg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/* White card container with NSU blue border */
+.login-card {
+  background: white;
+  border: 3px solid #003087;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 420px;
+  padding-bottom: 2rem;
+}
+
+/* NSU logo section at the top of the card */
+.login-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 1.5rem 2rem 1rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* NOVA SOUTHEASTERN UNIVERSITY text on the left of the logo */
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  font-weight: 500;
+  color: #003087;
+  text-align: right;
+  line-height: 1.4;
+}
+
+/* Vertical blue divider separating logo text from the NSU logo */
+.logo-divider {
+  width: 1px;
+  height: 40px;
+  background: #003087;
+}
+
+/* NSU Florida logo on the right side of the logo */
+.logo-nsu {
+  display: flex;
+  flex-direction: column;
+  color: #003087;
+  line-height: 1.1;
+}
+
+/* Creates bold NSU initials */
+.logo-nsu strong {
+  font-size: 28px;
+  font-weight: 800;
+}
+
+/* Creates Florida text smaller below NSU */
+.logo-nsu span {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Login heading in center of the card */
+.login-title {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 400;
+  margin: 1.5rem 0 1rem;
+  color: #111;
+}
+
+/* Form fields */
+.form-group {
+  padding: 0 2rem;
+  margin-bottom: 1.2rem;
+}
+
+/* Labels for username and password fields */
+.form-group label {
+  display: block;
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 6px;
+  color: #111;
+}
+
+/* Text input fields for username and password */
+.form-group input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  font-size: 15px;
+  border: 1px solid #bbb;
+  border-radius: 3px;
+}
+
+/* Highlights input field with blue border when focused */
+.form-group input:focus {
+  outline: none;
+  border-color: #003087;
+}
+
+/* Centers the login button */
+.login-btn-wrapper {
+  text-align: center;
+  margin: 1.5rem 0 1rem;
+}
+
+/* Login button styling */
+.login-btn {
+  background: #d0d0d0;
+  border: 1px solid #999;
+  padding: 4px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+/* Hover effect for login button */
+.login-btn:hover {
+  background: #bbb;
+}
+
+/* Create account link. Redirects to registration page. */
+.register-link {
+  text-align: center;
+  font-size: 13px;
+  color: #555;
+  margin: 0;
+  padding: 0 2rem;
+}
+
+/* Clickable link styling for the create account link */
+.register-link a {
+  color: #003087;
+  text-decoration: underline;
+}

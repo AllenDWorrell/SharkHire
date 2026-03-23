@@ -8,7 +8,7 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f5f5f5;
+  background-color: #ace5fa;
   color: #333;
 }
 
@@ -19,32 +19,48 @@ a {
 
 /* Navbar */
 .navbar {
-  background-color: #003087; /* NSU blue */
-  color: #fff;
-  padding: 1rem 2rem;
+  background-color: #ffffff;         /* White navbar background */
+  color: #003087;                    /* NSU blue text */
+  padding: 1rem 2rem;             /* Smaller navbar height */
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 2px solid #003087; /* Blue line separating navbar from page */
 }
 
+/* SharkHire brand logo and text */
 .navbar__brand {
-  font-size: 1.5rem;
+  font-size: 2.2rem;                
   font-weight: bold;
-  color: #fff;
+  color: #003087;                   
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
+/* Shark fin image in the navbar */
+.navbar__logo {
+  width: 50px;                      
+  height: 50px;                    
+  object-fit: contain;
+}
+
+/* Navigation links on the right side of the navbar */
 .navbar__links {
   display: flex;
   gap: 1.5rem;
   list-style: none;
 }
 
+/* Individual navigation link styling */
 .navbar__links a {
-  color: #fff;
-  font-size: 1rem;
+  color: #003087;                   
+  font-size: 1.1rem;
   transition: color 0.2s;
+  text-decoration: underline;
 }
 
+/* Hover effect for navigation links */
 .navbar__links a:hover {
   color: #6ab0f5;
 }
@@ -75,6 +91,7 @@ a {
   margin: 0 auto 2rem;
 }
 
+/* Button base styles */
 .btn {
   display: inline-block;
   padding: 0.75rem 1.75rem;
@@ -85,6 +102,7 @@ a {
   margin: 0 0.5rem;
 }
 
+/* Primary button — NSU blue background */
 .btn-primary {
   background-color: #003087;
   color: #fff;
@@ -94,6 +112,7 @@ a {
   background-color: #00236e;
 }
 
+/* Secondary button — white background with blue border */
 .btn-secondary {
   background-color: #fff;
   color: #003087;
@@ -120,6 +139,7 @@ a {
   margin-bottom: 0.5rem;
 }
 
+/* Job type badge */
 .job-card .job-type {
   display: inline-block;
   background-color: #6ab0f5;
@@ -146,16 +166,19 @@ a {
   text-align: center;
 }
 
+/* Form field wrapper */
 .form-group {
   margin-bottom: 1rem;
 }
 
+/* Form field labels */
 .form-group label {
   display: block;
   margin-bottom: 0.4rem;
   font-weight: 500;
 }
 
+/* Form inputs and dropdowns */
 .form-group input,
 .form-group select {
   width: 100%;
@@ -165,6 +188,7 @@ a {
   font-size: 1rem;
 }
 
+/* Blue border on input focus */
 .form-group input:focus,
 .form-group select:focus {
   outline: none;
