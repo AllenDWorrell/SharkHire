@@ -14,7 +14,7 @@ const applicationSchema = new mongoose.Schema(
     },
     coverLetter: { type: String },
   },
-  { timestamps: true }
+  { timestamps: true, collection: 'Applications' }
 );
 
 module.exports = mongoose.model('Application', applicationSchema);

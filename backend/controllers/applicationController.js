@@ -6,13 +6,55 @@ const Job = require('../models/Job');
 // @desc  Get all applications (admin/employer view)
 // @route GET /api/applications
 const getApplications = async (req, res) => {
-  res.status(200).json({ message: 'getApplications – not yet implemented' });
+  try {
+    // If user is employer, filter by their job postings
+    // Otherwise, filter by student ID
+    let filters = {};
+    
+    if (req.user.role === 'employer') {
+      // Get all jobs posted by this employer
+      const Job = require('../models/Job');
+      const employerJobs = await Job.find({ employer: req.user.id }).select('_id');
+      const jobIds = employerJobs.map(job => job._id);
+      filters.job = { $in: jobIds };
+    } else if (req.user.role === 'student') {
+      // Get only this student's applications
+      filters.student = req.user.id;
+    }
+
+    const applications = await Application.find(filters)
+      .populate('student', 'name email')
+      .populate('job', 'title description')
+      .sort({ createdAt: -1 });
+
+    res.status(200).json(applications);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to retrieve applications', error: error.message });
+  }
 };
 
 // @desc  Get a single application by ID
 // @route GET /api/applications/:id
 const getApplicationById = async (req, res) => {
-  res.status(200).json({ message: `getApplicationById ${req.params.id} – not yet implemented` });
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: 'Invalid application ID format.' });
+    }
+
+    const application = await Application.findById(id)
+      .populate('student', 'name email')
+      .populate('job', 'title description');
+
+    if (!application) {
+      return res.status(404).json({ message: 'Application not found.' });
+    }
+
+    res.status(200).json(application);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to retrieve application', error: error.message });
+  }
 };
 
 // @desc  Submit a new job application
@@ -86,13 +128,76 @@ const createApplication = async (req, res) => {
 // @desc  Update application status (e.g., accepted / rejected)
 // @route PUT /api/applications/:id
 const updateApplication = async (req, res) => {
-  res.status(200).json({ message: `updateApplication ${req.params.id} – not yet implemented` });
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: 'Invalid application ID format.' });
+    }
+
+    if (!status) {
+      return res.status(400).json({ message: 'status is required' });
+    }
+
+    const validStatuses = ['pending', 'reviewed', 'accepted', 'rejected'];
+    if (!validStatuses.includes(status)) {
+      return res.status(400).json({ message: 'Invalid status. Use pending, reviewed, accepted, or rejected.' });
+    }
+
+    const application = await Application.findById(id);
+    if (!application) {
+      return res.status(404).json({ message: 'Application not found.' });
+    }
+
+    // Verify user has permission (must be employer of the job)
+    const job = await Job.findById(application.job);
+    if (job.employer.toString() !== req.user.id.toString()) {
+      return res.status(403).json({ message: 'Not authorized to update this application' });
+    }
+
+    application.status = status;
+    await application.save();
+
+    res.status(200).json(application);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to update application', error: error.message });
+  }
 };
 
 // @desc  Delete/withdraw an application
 // @route DELETE /api/applications/:id
 const deleteApplication = async (req, res) => {
-  res.status(200).json({ message: `deleteApplication ${req.params.id} – not yet implemented` });
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: 'Invalid application ID format.' });
+    }
+
+    const application = await Application.findById(id);
+    if (!application) {
+      return res.status(404).json({ message: 'Application not found.' });
+    }
+
+    // Verify user has permission (student who submitted or employer)
+    const isStudent = application.student.toString() === req.user.id.toString();
+    let isEmployer = false;
+
+    if (!isStudent) {
+      const job = await Job.findById(application.job);
+      isEmployer = job.employer.toString() === req.user.id.toString();
+    }
+
+    if (!isStudent && !isEmployer) {
+      return res.status(403).json({ message: 'Not authorized to delete this application' });
+    }
+
+    await Application.findByIdAndDelete(id);
+    res.status(200).json({ message: 'Application deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to delete application', error: error.message });
+  }
 };
 
 module.exports = {

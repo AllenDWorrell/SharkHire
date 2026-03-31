@@ -1,36 +1,55 @@
 // Student Dashboard – shows job listings and application statuses for a student
+import { useState, useEffect } from 'react';
 import JobCard from '../components/JobCard';
-
-// Placeholder data – replace with API call once backend is ready
-const placeholderJobs = [
-  {
-    _id: '1',
-    title: 'Library Assistant',
-    type: 'NSE',
-    location: 'Alvin Sherman Library',
-    hoursPerWeek: 10,
-    description: 'Assist library staff with shelving, check-ins, and patron support.',
-  },
-  {
-    _id: '2',
-    title: 'IT Help Desk Technician',
-    type: 'FWS',
-    location: 'IT Department – Main Campus',
-    hoursPerWeek: 15,
-    description: 'Provide first-level technical support to students and faculty.',
-  },
-];
+import { getJobs } from '../services/api';
 
 function StudentDashboard() {
+  const [jobs, setJobs] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const response = await getJobs();
+        setJobs(response.data);
+      } catch (err) {
+        setError(err.response?.data?.message || 'Failed to load jobs');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchJobs();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="dashboard">
+        <h2>Student Dashboard</h2>
+        <p>Loading jobs...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="dashboard">
       <h2>Student Dashboard</h2>
       <p>Browse available NSE and Federal Work-Study positions below.</p>
-      <div style={{ marginTop: '1.5rem' }}>
-        {placeholderJobs.map((job) => (
-          <JobCard key={job._id} job={job} />
-        ))}
-      </div>
+      
+      {error && <div style={{ color: 'red', marginBottom: '10px' }}>{error}</div>}
+      
+      {jobs.length === 0 ? (
+        <div style={{ marginTop: '1.5rem', padding: '1rem', background: '#fff', borderRadius: '8px', border: '1px dashed #ccc' }}>
+          <p style={{ color: '#888', textAlign: 'center' }}>No jobs available at the moment.</p>
+        </div>
+      ) : (
+        <div style={{ marginTop: '1.5rem' }}>
+          {jobs.map((job) => (
+            <JobCard key={job._id} job={job} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

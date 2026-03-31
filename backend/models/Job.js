@@ -13,7 +13,7 @@ const jobSchema = new mongoose.Schema(
     hoursPerWeek: { type: Number },
     isOpen: { type: Boolean, default: true },
   },
-  { timestamps: true }
+  { timestamps: true, collection: 'Jobs' }
 );
 
 module.exports = mongoose.model('Job', jobSchema);

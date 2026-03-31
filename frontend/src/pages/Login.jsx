@@ -1,5 +1,7 @@
 // Login page – student/employer authentication form
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { loginUser } from '../services/api';
 
 //Importing the CSS file for styling the login page.
 import './Login.css';
@@ -7,18 +9,41 @@ import './Login.css';
 //Function to handle the login form that capture users username and password.
 //This data is submitted to the backend for authentication.
 function Login() {
-  const [formData, setFormData] = useState({ username: '', password: '' });
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   //Updates form data when a user types in the username or password fields.
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError('');
   };
  
   //Submits the login form. On successful login, the user is redirected to appropriate dashboard.
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Call authService.login(formData) and redirect on success
-    console.log('Login submitted:', formData);
+    setError('');
+    setIsLoading(true);
+
+    try {
+      const response = await loginUser(formData);
+      
+      // Save token to localStorage
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+
+      // Redirect based on role
+      if (response.data.user.role === 'employer') {
+        navigate('/employer-dashboard');
+      } else {
+        navigate('/student-dashboard');
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || 'Login failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   //Returns JSX layout for login page
@@ -51,17 +76,20 @@ function Login() {
         {/* Login heading centered below the logo */}
         <h2 className="login-title">Login</h2>
 
+        {/* Error message display */}
+        {error && <div style={{ color: 'red', marginBottom: '10px', textAlign: 'center' }}>{error}</div>}
+
         {/* Login form capturing username and password */}
         <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
-            <label htmlFor="username">Username: </label>
+            <label htmlFor="email">Email or Username: </label>
             <input
               type="text"
-              id="username"
-              name="username"
-              value={formData.username}
+              id="email"
+              name="email"
+              value={formData.email}
               onChange={handleChange}
-              placeholder="Enter you NSU username"
+              placeholder="Enter your email or username"
               required
             />
           </div>
@@ -82,8 +110,8 @@ function Login() {
 
           {/* Login button centered */}
           <div className="login-btn-wrapper">
-            <button type="submit" className="login-btn">
-              Login
+            <button type="submit" className="login-btn" disabled={isLoading}>
+              {isLoading ? 'Logging in...' : 'Login'}
             </button>
           </div>
         </form>
