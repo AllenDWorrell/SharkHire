@@ -31,14 +31,22 @@ function Navbar() {
       </Link>
       <ul className="navbar__links">
         <li><Link to="/">Home</Link></li>
-        {!user && <li><Link to="/student-dashboard">Student</Link></li>}
-        {!user && <li><Link to="/employer-dashboard">Employer</Link></li>}
-        {user?.role === 'student' && <li><Link to="/student-dashboard">Student</Link></li>}
-        {user?.role === 'employer' && <li><Link to="/employer-dashboard">Employer</Link></li>}
+
+        {/* Shows when user is logged in and has a specific role */}
+        {user?.role === 'student' && <li><Link to="/student-dashboard">Dashboard</Link></li>}
+        {user?.role === 'employer' && <li><Link to="/employer-dashboard">Dashboard</Link></li>}
+
         {user ? (
           <>
-            <li><span style={{ color: '#333' }}>Welcome, {user.name}!</span></li>
-            <li><button onClick={handleLogout} style={{ background: 'none', border: 'none', color: '#0066cc', cursor: 'pointer', textDecoration: 'underline' }}>Logout</button></li>
+            <li><span style={{ color: '#333', fontWeight: '600' }}>Welcome, {user.name}!</span></li>
+            <li>
+              <button 
+                onClick={handleLogout} 
+                style={{ background: 'none', border: 'none', color: '#003087', cursor: 'pointer', textDecoration: 'underline', fontWeight: 'bold' }}
+              >
+                Logout
+              </button>
+            </li>
           </>
         ) : (
           <>
