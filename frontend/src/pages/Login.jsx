@@ -3,24 +3,30 @@ import { useState } from 'react';
 
 //Importing the CSS file for styling the login page.
 import './Login.css';
-import { use } from 'react';
 
 //Function to handle the login form that capture users username and password.
 //This data is submitted to the backend for authentication.
 function Login() {
-  const [formData, setFormData] = useState({ username: '', password: '' });
+  // Added missing state for error handling and loading status to prevent ReferenceErrors
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   //Updates form data when a user types in the username or password fields.
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    setError('');
+    if (error) setError('');
   };
- 
+  
   //Submits the login form. On successful login, the user is redirected to appropriate dashboard.
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     // TODO: Call authService.login(formData) and redirect on success
     console.log('Login submitted:', formData);
+    
+    // Temporary timeout to test the "Logging in..." button state
+    setTimeout(() => setIsLoading(false), 2000);
   };
 
   //Returns JSX layout for login page

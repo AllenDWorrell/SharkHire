@@ -1,0 +1,189 @@
+/* Layout */
+.employer-dashboard {
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.welcome-section {
+  max-width: 1200px;
+  margin: 0 auto 2rem auto;
+  text-align: center;
+  color: #003087; /* NSU Dark Blue */
+}
+
+.greeting {
+  font-size: 2.5rem; 
+  font-weight: bold;
+}
+
+.dashboard-title {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Flex container centered in middle of page */
+.portal-main {
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+/* Sidebar Styling */
+.sidebar-pane {
+  flex: 0 0 320px;
+}
+
+.menu-card {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.menu-card h4 {
+  background-color: #003087;
+  color: white;
+  padding: 0.5rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+}
+
+.menu-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  text-align: left;
+  color: black;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.link-btn:hover {
+  background: #f0f0f0;
+}
+
+.link-btn.active {
+  color: #003087;
+  font-weight: bold;
+  background: #e6f0ff;
+  text-decoration: none; /* Active links usually look cleaner without the underline */
+}
+
+/* Main Content Pane */
+.focus-pane {
+  flex: 1;
+}
+
+/* Centered White Message Box (Matches your "No Results" look) */
+.no-results-msg {
+  text-align: center;
+  padding: 5rem 2rem;
+  background: white; /* Changed from semi-transparent to solid white for the container look */
+  border-radius: 12px;
+  border: 2px dashed #003087;
+  color: #003087;
+  font-weight: 500;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+/* Form Specific Styling */
+.form-header {
+  color: #003087;
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #e6f0ff;
+  padding-bottom: 0.5rem;
+}
+
+.job-post-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  color: #003087;
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin-bottom: 0.8rem
+  display: block;
+}
+
+.form-group input, 
+.form-group textarea, 
+.form-group select {
+  padding: 0.8rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+/* Focus state for form inputs */
+.form-group input:focus, 
+.form-group textarea:focus, 
+.form-group select:focus {
+  border-color: #003087;
+}
+
+/* Custom styles for checkboxes and location select to match the design */
+.form-group textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Horizontal row for Type, Location, and Hours */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.submit-listing-btn {
+  background-color: #003087;
+  color: white;
+  border: none;
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.submit-listing-btn:hover {
+  background-color: #002566;
+  transform: translateY(-2px);
+}
+
+.submit-listing-btn:active {
+  transform: translateY(0);
+}
