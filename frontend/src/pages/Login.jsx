@@ -1,9 +1,6 @@
 // Login page – student/employer authentication form
 import { useState } from 'react';
 
-//useNavigate is a hook that allows for redirecting users to different pages after successful login.
-import { useNavigate } from 'react-router-dom';
-
 //Importing the CSS file for styling the login page.
 import './Login.css';
 import { use } from 'react';
@@ -12,32 +9,18 @@ import { use } from 'react';
 //This data is submitted to the backend for authentication.
 function Login() {
   const [formData, setFormData] = useState({ username: '', password: '' });
-  const navigate = useNavigate();
 
   //Updates form data when a user types in the username or password fields.
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError('');
   };
  
   //Submits the login form. On successful login, the user is redirected to appropriate dashboard.
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    try {
     // TODO: Call authService.login(formData) and redirect on success
     console.log('Login submitted:', formData);
-
-    const userRole = formData.username.includes('employer') ? 'employer' : 'student';
-    
-    //Redirects user to appropriate dashboard
-    if (userRole === 'student') {
-      navigate('/student-dashboard');
-    } else {
-      navigate('/employer-dashboard');  
-    }
-  } catch (error) {
-    console.error('Login failed:', error);
-  }
   };
 
   //Returns JSX layout for login page
@@ -70,17 +53,20 @@ function Login() {
         {/* Login heading centered below the logo */}
         <h2 className="login-title">Login</h2>
 
+        {/* Error message display */}
+        {error && <div style={{ color: 'red', marginBottom: '10px', textAlign: 'center' }}>{error}</div>}
+
         {/* Login form capturing username and password */}
         <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
-            <label htmlFor="username">Username: </label>
+            <label htmlFor="email">Email or Username: </label>
             <input
               type="text"
-              id="username"
-              name="username"
-              value={formData.username}
+              id="email"
+              name="email"
+              value={formData.email}
               onChange={handleChange}
-              placeholder="Enter you NSU username"
+              placeholder="Enter your email or username"
               required
             />
           </div>
@@ -101,8 +87,8 @@ function Login() {
 
           {/* Login button centered */}
           <div className="login-btn-wrapper">
-            <button type="submit" className="login-btn">
-              Login
+            <button type="submit" className="login-btn" disabled={isLoading}>
+              {isLoading ? 'Logging in...' : 'Login'}
             </button>
           </div>
         </form>

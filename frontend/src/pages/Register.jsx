@@ -1,30 +1,66 @@
 // Register page – new user registration form
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { registerUser } from '../services/api';
 
 //Importing the CSS file for styling the register pag
 import './Register.css';
 
-//Function to handle the registration form (name, email, nNumber, password, confirmPassword, role)
+//Function to handle the registration form (name, email, password, confirmPassword, role)
 function Register() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    nNumber: '',
     password: '',
     confirmPassword: '',
-    role: '',
+    role: 'student',
   });
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   //Updates form data when a user types in the registration fields.
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError('');
   };
 
   //Submits the registration form
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Call authService.register(formData) and redirect on success
-    console.log('Register submitted:', formData);
+    setError('');
+    setIsLoading(true);
+
+    // Validate passwords match
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const response = await registerUser({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        role: formData.role,
+      });
+
+      // Save token to localStorage
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+
+      // Redirect to appropriate dashboard
+      if (response.data.user.role === 'employer') {
+        navigate('/employer-dashboard');
+      } else {
+        navigate('/student-dashboard');
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || 'Registration failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   //Returns JSX layout for registration page
@@ -57,17 +93,20 @@ function Register() {
         {/* Create Account heading centered below the logo */}
         <h2 className="register-title">Create Account</h2>
 
-        {/* Registration form capturing name, email, nNumber, password, confirmPassword, and role */}
+        {/* Error message display */}
+        {error && <div style={{ color: 'red', marginBottom: '10px', textAlign: 'center' }}>{error}</div>}
+
+        {/* Registration form capturing name, email, password, confirmPassword, and role */}
         <form onSubmit={handleSubmit} className="register-form">
 
           {/* Full Name input field */}
           <div className="form-group">
-            <label htmlFor="fullName">Full Name:</label>
+            <label htmlFor="name">Full Name:</label>
             <input
               type="text"
-              id="fullName"
-              name="fullName"
-              value={formData.fullName}
+              id="name"
+              name="name"
+              value={formData.name}
               onChange={handleChange}
               placeholder="Enter your full name"
               required
@@ -84,20 +123,6 @@ function Register() {
               value={formData.email}
               onChange={handleChange}
               placeholder="Enter your NSU email"
-              required
-            />
-          </div>
-
-          {/* N-Number input field */}
-          <div className="form-group">
-            <label htmlFor="nNumber">N#:</label>
-            <input
-              type="text"
-              id="nNumber"
-              name="nNumber"
-              value={formData.nNumber}
-              onChange={handleChange}
-              placeholder="Enter your N-Number"
               required
             />
           </div>
@@ -141,20 +166,20 @@ function Register() {
 
           {/* Register button centered */}
           <div className="register-btn-wrapper">
-            <button type="submit" className="register-btn">
-              Register
+            <button type="submit" className="register-btn" disabled={isLoading}>
+              {isLoading ? 'Registering...' : 'Register'}
             </button>
           </div>
 
-          </form>
+        </form>
 
-          {/* Link to login page for users who already have an account */}
-          <p className="login-link">
-            Already have an account? <a href="/login">Login here.</a>
-          </p>
-
-          </div>
-     </div>
+        {/* Link to login page for users who already have an account */}
+        <p className="login-link">
+          Already have an account? <a href="/login">Login here.</a>
+        </p>
+      </div>
+    </div>
   );
 }
+
 export default Register;

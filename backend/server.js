@@ -6,6 +6,10 @@ const dotenv = require('dotenv');
 // Load environment variables
 dotenv.config();
 
+// Database connection
+const connectDB = require('./config/db');
+connectDB();
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
