@@ -1,7 +1,7 @@
-// Student Dashboard – shows job listings and application statuses for a student
+//Student Dashboard – shows job listings and application statuses for a student
 import { useState } from 'react';
 
-// Student Dashboard – shows job listings and application statuses for a student
+//Student Dashboard – shows job listings and application statuses for a student
 import JobCard from '../components/JobCard';
 
 //Importing the CSS file for styling the student dashboard page.
@@ -46,7 +46,6 @@ function StudentDashboard() {
     },
   ];
 
-  // SUGGESTION: Consolidate logic so Search, Type, and Location work together
   // Logic to filter jobs based on checkbox selection
   const filteredJobs = placeholderJobs.filter((job) => {
     const matchesSearch = job.title.toLowerCase().includes(searchQuery.toLowerCase());
@@ -145,7 +144,6 @@ function StudentDashboard() {
 
               {/*Displaying placeholder job cards to retrieve from database once backend is ready.*/}
               <div className="job-cards-list" style={{ marginTop: '1.5rem' }}>
-                {/* SUGGESTION: Map over filteredJobs instead of placeholderJobs to reflect the UI changes */}
                 {filteredJobs.length > 0 ? (
                   filteredJobs.map((job) => (
                     <JobCard key={job._id} job={job} />

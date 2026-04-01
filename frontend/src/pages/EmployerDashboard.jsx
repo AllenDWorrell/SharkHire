@@ -59,19 +59,19 @@ function EmployerDashboard() {
                 className={`link-btn ${activeTab === 'manage-applications' ? 'active' : ''}`}
                 onClick={() => setActiveTab('manage-applications')}
               >
-                <IconApplications /> Manage Student Applications
+                <IconApplications/> Manage Student Applications
               </button>
               <button
                 className={`link-btn ${activeTab === 'post-job' ? 'active' : ''}`}
                 onClick={() => setActiveTab('post-job')}
               >
-                <IconPostJob /> Post a Job
+                <IconPostJob/> Post a Job
               </button>
               <button
                 className={`link-btn ${activeTab === 'my-listings' ? 'active' : ''}`}
                 onClick={() => setActiveTab('my-listings')}
               >
-                <IconListings /> My Active Listings
+                <IconListings/> My Active Listings
               </button>
             </div>
           </div>
@@ -80,8 +80,8 @@ function EmployerDashboard() {
           <div className="menu-card">
             <h4>📘 Resources</h4>
             <div className="menu-links">
-              <button className="link-btn"><IconGuidelines /> Hiring Guidelines</button>
-              <button className="link-btn"><IconPayroll /> Payroll Information</button>
+              <button className="link-btn"><IconGuidelines/> Hiring Guidelines</button>
+              <button className="link-btn"><IconPayroll/> Payroll Information</button>
             </div>
           </div>
         </aside>
