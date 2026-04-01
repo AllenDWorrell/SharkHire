@@ -1,17 +1,20 @@
 // Navbar component – site-wide navigation bar
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 function Navbar() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    try {
+      const storedUser = localStorage.getItem('user');
+      setUser(storedUser ? JSON.parse(storedUser) : null);
+    } catch {
+      setUser(null);
     }
-  }, []);
+  }, [location.pathname]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -28,8 +31,10 @@ function Navbar() {
       </Link>
       <ul className="navbar__links">
         <li><Link to="/">Home</Link></li>
-        <li><Link to="/student-dashboard">Student</Link></li>
-        <li><Link to="/employer-dashboard">Employer</Link></li>
+        {!user && <li><Link to="/student-dashboard">Student</Link></li>}
+        {!user && <li><Link to="/employer-dashboard">Employer</Link></li>}
+        {user?.role === 'student' && <li><Link to="/student-dashboard">Student</Link></li>}
+        {user?.role === 'employer' && <li><Link to="/employer-dashboard">Employer</Link></li>}
         {user ? (
           <>
             <li><span style={{ color: '#333' }}>Welcome, {user.name}!</span></li>

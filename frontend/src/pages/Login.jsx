@@ -1,5 +1,7 @@
 // Login page – student/employer authentication form
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { loginUser } from '../services/api';
 
 //Importing the CSS file for styling the login page.
 import './Login.css';
@@ -11,6 +13,7 @@ function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   //Updates form data when a user types in the username or password fields.
   const handleChange = (e) => {
@@ -21,12 +24,28 @@ function Login() {
   //Submits the login form. On successful login, the user is redirected to appropriate dashboard.
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
     setIsLoading(true);
-    // TODO: Call authService.login(formData) and redirect on success
-    console.log('Login submitted:', formData);
-    
-    // Temporary timeout to test the "Logging in..." button state
-    setTimeout(() => setIsLoading(false), 2000);
+
+    try {
+      const response = await loginUser({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+
+      if (response.data.user.role === 'employer') {
+        navigate('/employer-dashboard');
+      } else {
+        navigate('/student-dashboard');
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || 'Login failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   //Returns JSX layout for login page
@@ -65,14 +84,14 @@ function Login() {
         {/* Login form capturing username and password */}
         <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
-            <label htmlFor="email">Email or Username: </label>
+            <label htmlFor="email">Email: </label>
             <input
-              type="text"
+              type="email"
               id="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder="Enter your email or username"
+              placeholder="Enter your email"
               required
             />
           </div>
