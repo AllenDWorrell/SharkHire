@@ -1,5 +1,6 @@
 //Employer Dashboard - shows job listings and applications for an employer
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { createJob, getJobs } from '../services/api';
 
 //Importing the CSS file for styling the employer dashboard page.
 import './EmployerDashboard.css';
@@ -15,7 +16,11 @@ const IconGuidelines = () => <span>📘</span>;
 function EmployerDashboard() {
   const [activeTab, setActiveTab] = useState('manage-applications');
   const [applications] = useState([]); // Empty for "No results" test
-  const [activeJobs] = useState([]);    // Empty for "No results" test
+  const [activeJobs, setActiveJobs] = useState([]);
+  const [isLoadingJobs, setIsLoadingJobs] = useState(false);
+  const [isCreatingJob, setIsCreatingJob] = useState(false);
+  const [createJobError, setCreateJobError] = useState('');
+  const [createJobSuccess, setCreateJobSuccess] = useState('');
 
   // Added back state and handlers for the form to ensure it functions
   const [formData, setFormData] = useState({
@@ -26,6 +31,24 @@ function EmployerDashboard() {
     hoursPerWeek: 0,
   });
 
+  useEffect(() => {
+    const loadEmployerJobs = async () => {
+      setIsLoadingJobs(true);
+      try {
+        const response = await getJobs();
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        const employerJobs = (response.data || []).filter(
+          (job) => String(job.employer) === String(user.id)
+        );
+        setActiveJobs(employerJobs);
+      } finally {
+        setIsLoadingJobs(false);
+      }
+    };
+
+    loadEmployerJobs();
+  }, []);
+
   //Handles input changes for job posting form
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -33,10 +56,36 @@ function EmployerDashboard() {
   };
 
   //Handles form submission for creating a new job listing
-  const handleCreateJob = (e) => {
+  const handleCreateJob = async (e) => {
     e.preventDefault();
-    console.log("Job Created:", formData);
-    // Logic to save job goes here
+    setCreateJobError('');
+    setCreateJobSuccess('');
+    setIsCreatingJob(true);
+
+    try {
+      const response = await createJob({
+        title: formData.title,
+        description: formData.description,
+        type: formData.type,
+        location: formData.location,
+        hoursPerWeek: formData.hoursPerWeek,
+      });
+
+      setActiveJobs((prev) => [response.data, ...prev]);
+      setCreateJobSuccess('Job listing created successfully.');
+      setFormData({
+        title: '',
+        description: '',
+        type: 'NSE',
+        location: '',
+        hoursPerWeek: 0,
+      });
+      setActiveTab('my-listings');
+    } catch (err) {
+      setCreateJobError(err.response?.data?.message || 'Failed to create job listing.');
+    } finally {
+      setIsCreatingJob(false);
+    }
   };
 
   return (
@@ -102,10 +151,19 @@ function EmployerDashboard() {
           {/* My Active Listings Tab */}
           {activeTab === 'my-listings' && (
             <div className="no-results-msg">
-              {activeJobs.length === 0 ? (
+              {isLoadingJobs ? (
+                'Loading your job listings...'
+              ) : activeJobs.length === 0 ? (
                 "No active job listings yet. Post your first job to get started."
               ) : (
-                "Jobs List Placeholder"
+                <div>
+                  {activeJobs.map((job) => (
+                    <div key={job._id} style={{ marginBottom: '1rem', textAlign: 'left' }}>
+                      <strong>{job.title}</strong>
+                      <div>{job.type} | {job.location || 'Location TBD'} | {job.hoursPerWeek || 0} hrs/week</div>
+                    </div>
+                  ))}
+                </div>
               )}
             </div>
           )}
@@ -114,6 +172,8 @@ function EmployerDashboard() {
           {activeTab === 'post-job' && (
             <div className="menu-card">
               <h3 className="form-header">Post a New Job</h3>
+              {createJobError && <div style={{ color: 'red', marginBottom: '10px' }}>{createJobError}</div>}
+              {createJobSuccess && <div style={{ color: 'green', marginBottom: '10px' }}>{createJobSuccess}</div>}
               <form className="job-post-form" onSubmit={handleCreateJob}>
                 <div className="form-group">
                   <label htmlFor="title">Job Title</label>
@@ -175,7 +235,9 @@ function EmployerDashboard() {
                 </div>
 
                 <div className="form-actions">
-                  <button type="submit" className="submit-listing-btn">Create Listing</button>
+                  <button type="submit" className="submit-listing-btn" disabled={isCreatingJob}>
+                    {isCreatingJob ? 'Creating...' : 'Create Listing'}
+                  </button>
                 </div>
               </form>
             </div>

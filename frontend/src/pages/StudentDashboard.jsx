@@ -1,8 +1,9 @@
 // Student Dashboard – shows job listings and application statuses for a student
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // Student Dashboard – shows job listings and application statuses for a student
 import JobCard from '../components/JobCard';
+import { getJobs } from '../services/api';
 
 //Importing the CSS file for styling the student dashboard page.
 import './StudentDashboard.css';
@@ -20,35 +21,35 @@ const IconForms = () => <span>📑</span>;
 function StudentDashboard() {
   const [activeView, setActiveView] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [jobs, setJobs] = useState([]);
+  const [isLoadingJobs, setIsLoadingJobs] = useState(true);
+  const [jobsError, setJobsError] = useState('');
   const [filters, setFilters] = useState({
     fws: true,
     nse: true,
     location: 'All',
   });
 
-  // Placeholder data – replace with API call once backend is ready
-  const placeholderJobs = [
-    {
-      _id: '1',
-      title: 'Library Assistant',
-      type: 'NSE',
-      location: 'Alvin Sherman Library',
-      hoursPerWeek: 10,
-      description: 'Assist library staff with shelving, check-ins, and patron support.',
-    },
-    {
-      _id: '2',
-      title: 'IT Help Desk Technician',
-      type: 'FWS',
-      location: 'IT Department – Main Campus',
-      hoursPerWeek: 15,
-      description: 'Provide first-level technical support to students and faculty.',
-    },
-  ];
+  useEffect(() => {
+    const loadJobs = async () => {
+      setIsLoadingJobs(true);
+      setJobsError('');
+      try {
+        const response = await getJobs();
+        setJobs(response.data || []);
+      } catch (err) {
+        setJobsError(err.response?.data?.message || 'Failed to load jobs. Please refresh and try again.');
+      } finally {
+        setIsLoadingJobs(false);
+      }
+    };
+
+    loadJobs();
+  }, []);
 
   // SUGGESTION: Consolidate logic so Search, Type, and Location work together
   // Logic to filter jobs based on checkbox selection
-  const filteredJobs = placeholderJobs.filter((job) => {
+  const filteredJobs = jobs.filter((job) => {
     const matchesSearch = job.title.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesType = (filters.fws && job.type === 'FWS') || (filters.nse && job.type === 'NSE');
     const matchesLocation = filters.location === 'All' || job.location === filters.location;
@@ -143,16 +144,18 @@ function StudentDashboard() {
                 </div>
               </div>
 
-              {/*Displaying placeholder job cards to retrieve from database once backend is ready.*/}
+              {/*Displaying live job cards loaded from backend.*/}
               <div className="job-cards-list" style={{ marginTop: '1.5rem' }}>
-                {/* SUGGESTION: Map over filteredJobs instead of placeholderJobs to reflect the UI changes */}
-                {filteredJobs.length > 0 ? (
+                {isLoadingJobs && <p className="no-results-msg">Loading jobs...</p>}
+                {jobsError && <p className="no-results-msg">{jobsError}</p>}
+                {!isLoadingJobs && !jobsError && filteredJobs.length > 0 ? (
                   filteredJobs.map((job) => (
                     <JobCard key={job._id} job={job} />
                   ))
-                ) : (
+                ) : null}
+                {!isLoadingJobs && !jobsError && filteredJobs.length === 0 ? (
                   <p className="no-results-msg">No jobs match your selected filters.</p>
-                )}
+                ) : null}
               </div>
             </div>
           )}
