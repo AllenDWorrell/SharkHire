@@ -1,13 +1,18 @@
 // Login page – student/employer authentication form
 import { useState } from 'react';
 
+//useNavigate is a hook that allows for redirecting users to different pages after successful login.
+import { useNavigate } from 'react-router-dom';
+
 //Importing the CSS file for styling the login page.
 import './Login.css';
+import { use } from 'react';
 
 //Function to handle the login form that capture users username and password.
 //This data is submitted to the backend for authentication.
 function Login() {
   const [formData, setFormData] = useState({ username: '', password: '' });
+  const navigate = useNavigate();
 
   //Updates form data when a user types in the username or password fields.
   const handleChange = (e) => {
@@ -17,8 +22,22 @@ function Login() {
   //Submits the login form. On successful login, the user is redirected to appropriate dashboard.
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    try {
     // TODO: Call authService.login(formData) and redirect on success
     console.log('Login submitted:', formData);
+
+    const userRole = formData.username.includes('employer') ? 'employer' : 'student';
+    
+    //Redirects user to appropriate dashboard
+    if (userRole === 'student') {
+      navigate('/student-dashboard');
+    } else {
+      navigate('/employer-dashboard');  
+    }
+  } catch (error) {
+    console.error('Login failed:', error);
+  }
   };
 
   //Returns JSX layout for login page
