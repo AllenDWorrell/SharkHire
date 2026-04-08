@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 
 //Student Dashboard – shows job listings and application statuses for a student
 import JobCard from '../components/JobCard';
-import { getJobs } from '../services/api';
+// Added getApplications to the API imports
+import { getJobs, getApplications } from '../services/api';
 
 //Importing the CSS file for styling the student dashboard page.
 import './StudentDashboard.css';
@@ -24,12 +25,18 @@ function StudentDashboard() {
   const [jobs, setJobs] = useState([]);
   const [isLoadingJobs, setIsLoadingJobs] = useState(true);
   const [jobsError, setJobsError] = useState('');
+  
+  // New state to hold the student's submitted applications
+  const [myApplications, setMyApplications] = useState([]);
+  const [isLoadingApps, setIsLoadingApps] = useState(false);
+
   const [filters, setFilters] = useState({
     fws: true,
     nse: true,
     location: 'All',
   });
 
+  // Effect to load jobs on mount
   useEffect(() => {
     const loadJobs = async () => {
       setIsLoadingJobs(true);
@@ -46,6 +53,24 @@ function StudentDashboard() {
 
     loadJobs();
   }, []);
+
+  // New effect to load applications whenever the user switches to the 'applications' view
+  useEffect(() => {
+    if (activeView === 'applications') {
+      const loadApps = async () => {
+        setIsLoadingApps(true);
+        try {
+          const response = await getApplications();
+          setMyApplications(response.data || []);
+        } catch (err) {
+          console.error("Failed to load applications", err);
+        } finally {
+          setIsLoadingApps(false);
+        }
+      };
+      loadApps();
+    }
+  }, [activeView]);
 
   // Logic to filter jobs based on checkbox selection
   const filteredJobs = jobs.filter((job) => {
@@ -93,10 +118,10 @@ function StudentDashboard() {
           <div className="menu-card employee-box">
             <h4><IconHandbook/> Current Student Employees</h4>
             <nav className="menu-links">
-              <button onClick={() => setActiveView('handbook')} className="link-btn"><IconHandbook /> Student Employee Handbook</button>
-              <button onClick={() => setActiveView('payroll')} className="link-btn"><IconPayroll /> Payroll Information</button>
-              <button onClick={() => setActiveView('deposit')} className="link-btn"><IconDeposit /> Direct Deposit Setup</button>
-              <button onClick={() => setActiveView('forms')} className="link-btn"><IconForms/> Forms & Resources</button>
+              <button onClick={() => setActiveView('handbook')} className={`link-btn ${activeView === 'handbook' ? 'active' : ''}`}><IconHandbook /> Student Employee Handbook</button>
+              <button onClick={() => setActiveView('payroll')} className={`link-btn ${activeView === 'payroll' ? 'active' : ''}`}><IconPayroll /> Payroll Information</button>
+              <button onClick={() => setActiveView('deposit')} className={`link-btn ${activeView === 'deposit' ? 'active' : ''}`}><IconDeposit /> Direct Deposit Setup</button>
+              <button onClick={() => setActiveView('forms')} className={`link-btn ${activeView === 'forms' ? 'active' : ''}`}><IconForms/> Forms & Resources</button>
             </nav>
           </div>
         </aside>
@@ -163,25 +188,100 @@ function StudentDashboard() {
 
           {activeView === 'applications' && (
             <div className="applications-view">
-              {/* This container matches the "No jobs match" box from Find a Job */}
-              <div className="no-results-msg">
-                <p>You currently have 0 active applications.</p>
-              </div>
+              {isLoadingApps ? (
+                <p className="no-results-msg">Loading your applications...</p>
+              ) : myApplications.length === 0 ? (
+                <div className="no-results-msg">
+                  <p>You currently have 0 active applications.</p>
+                </div>
+              ) : (
+                <div className="application-status-list">
+                  {myApplications.map((app) => (
+                    <div key={app._id} className="status-card">
+                      <div className="status-info">
+                        <h3>{app.job?.title || "Unknown Position"}</h3>
+                        <p>Applied on: {new Date(app.createdAt).toLocaleDateString()}</p>
+                        <p><strong>N#:</strong> {app.nNumber}</p>
+                      </div>
+                      {/* Visual indicator for Acceptance, Denial, or Pending status */}
+                      <div className={`status-label ${app.status?.toLowerCase()}`}>
+                        {app.status || 'Pending'}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
-          {/* New views for Payroll and Deposit to make the sidebar functional */}
+          {/* Payroll View – uses a table to match the uploaded Pay Period schedule */}
           {activeView === 'payroll' && (
-            <div className="no-results-msg">
-              <h3>2026 Payroll Schedule</h3>
-              <p>Your payroll information will appear here once finalized.</p>
+            <div className="resource-display">
+              <h3 className="resource-header">Winter 2026 Biweekly Pay Periods</h3>
+              <table className="payroll-table">
+                <thead>
+                  <tr>
+                    <th>Pay Period</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Pay Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>1</td><td>01/01/2026</td><td>01/10/2026</td><td>01/16/2026</td></tr>
+                  <tr><td>2</td><td>01/11/2026</td><td>01/24/2026</td><td>01/30/2026</td></tr>
+                  <tr><td>3</td><td>01/25/2026</td><td>02/07/2026</td><td>02/13/2026</td></tr>
+                  <tr><td>4</td><td>02/08/2026</td><td>02/21/2026</td><td>02/27/2026</td></tr>
+                  <tr><td>5</td><td>02/22/2026</td><td>03/07/2026</td><td>03/13/2026</td></tr>
+                  <tr><td>6</td><td>03/08/2026</td><td>03/21/2026</td><td>03/27/2026</td></tr>
+                  <tr><td>7</td><td>03/22/2026</td><td>04/04/2026</td><td>04/10/2026</td></tr>
+                  <tr><td>8</td><td>04/05/2026</td><td>04/18/2026</td><td>04/24/2026</td></tr>
+                  <tr><td>9</td><td>04/19/2026</td><td>05/02/2026</td><td>05/08/2026</td></tr>
+                  <tr><td>10</td><td>05/03/2026</td><td>05/16/2026</td><td>05/22/2026</td></tr>
+                </tbody>
+              </table>
+              <p className="footer-note">*Please ensure all timesheets are approved by the Period End Date.</p>
             </div>
           )}
 
+          {/* Direct Deposit View – matches the uploaded Authorization Form structure */}
           {activeView === 'deposit' && (
+            <div className="resource-display">
+              <h3 className="resource-header">Direct Deposit Authorization Form</h3>
+              <form className="deposit-form-layout">
+                <section className="form-section">
+                  <h5>Personal Information</h5>
+                  <input type="text" placeholder="Full Name" className="form-input" />
+                  <input type="text" placeholder="Address" className="form-input" />
+                  <div className="input-row">
+                    <input type="text" placeholder="City" />
+                    <input type="text" placeholder="State" />
+                    <input type="text" placeholder="Zip" />
+                  </div>
+                </section>
+
+                <section className="form-section" style={{ marginTop: '1rem' }}>
+                  <h5>Financial Institution Information</h5>
+                  <input type="text" placeholder="Bank Name" className="form-input" />
+                  <div className="input-row">
+                    <input type="text" placeholder="Routing #" />
+                    <input type="text" placeholder="Account #" />
+                  </div>
+                  <div className="account-type">
+                    <label><input type="radio" name="accType" /> Checking</label>
+                    <label style={{ marginLeft: '1rem' }}><input type="radio" name="accType" /> Savings</label>
+                  </div>
+                </section>
+                <button type="button" className="apply-btn" style={{ marginTop: '1.5rem', width: '100%' }}>Submit Authorization</button>
+              </form>
+            </div>
+          )}
+
+          {/* Handbook and Forms Fallbacks */}
+          {(activeView === 'handbook' || activeView === 'forms') && (
             <div className="no-results-msg">
-              <h3>Direct Deposit Setup</h3>
-              <p>Please follow the instructions in the handbook to set up your deposit.</p>
+              <h3>Resources Coming Soon</h3>
+              <p>This module is currently being finalized for the next sprint.</p>
             </div>
           )}
         </section>

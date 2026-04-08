@@ -1,30 +1,61 @@
-// JobCard component – displays a summary of a single job listing
 import { useState } from 'react';
 import { createApplication } from '../services/api';
 
 function JobCard({ job }) {
   const { _id, title, type, location, hoursPerWeek, description } = job || {};
+  
   const [isApplying, setIsApplying] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [showCoverLetter, setShowCoverLetter] = useState(false);
-  const [coverLetter, setCoverLetter] = useState('');
+  const [showForm, setShowForm] = useState(false);
 
-  const handleApply = async () => {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    nsuEmail: '',
+    nNumber: '',
+    address: '',
+    major: '',
+    workedAtNSU: 'No',
+    previousDept: '',
+    offeredPosition: 'No',
+    reference1: '',
+    reference2: ''
+  });
+  
+  const [resume, setResume] = useState(null);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleFileChange = (e) => {
+    setResume(e.target.files[0]);
+  };
+
+  const handleApply = async (e) => {
+    e.preventDefault();
+    if (!resume) {
+      setError('Please upload your resume.');
+      return;
+    }
+
     setError('');
     setSuccess('');
     setIsApplying(true);
 
+    // Use FormData for file uploads
+    const data = new FormData();
+    data.append('jobId', _id);
+    data.append('resume', resume);
+    Object.keys(formData).forEach(key => data.append(key, formData[key]));
+
     try {
-      await createApplication({
-        job: _id,
-        coverLetter: coverLetter.trim() || undefined,
-      });
-      setSuccess('Applied successfully!');
-      setCoverLetter('');
-      setShowCoverLetter(false);
+      await createApplication(data);
+      setSuccess('Application submitted successfully!');
+      setShowForm(false);
+      setResume(null);
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to apply for job');
+      setError(err.response?.data?.message || 'Failed to submit application');
     } finally {
       setIsApplying(false);
     }
@@ -32,44 +63,66 @@ function JobCard({ job }) {
 
   return (
     <div className="job-card">
-      <h3>{title || 'Job Title'}</h3>
-      {type && <span className="job-type">{type}</span>}
-      <p>{description || 'No description provided.'}</p>
-      {location && <p><strong>Location:</strong> {location}</p>}
-      {hoursPerWeek && <p><strong>Hours/week:</strong> {hoursPerWeek}</p>}
+      <h3>{title}</h3>
+      <span className="job-type">{type}</span>
+      <p>{description}</p>
 
-      {error && <div style={{ color: 'red', marginTop: '10px' }}>{error}</div>}
-      {success && <div style={{ color: 'green', marginTop: '10px' }}>{success}</div>}
+      {error && <div className="error-msg">{error}</div>}
+      {success && <div className="success-msg">{success}</div>}
 
-      {!showCoverLetter ? (
-        <button 
-          onClick={() => setShowCoverLetter(true)} 
-          style={{ marginTop: '10px', padding: '8px 16px', background: '#0066cc', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-        >
-          Apply
-        </button>
+      {!showForm ? (
+        <button className="apply-btn-main" onClick={() => setShowForm(true)}>Apply for this Position</button>
       ) : (
-        <div style={{ marginTop: '10px', padding: '1rem', background: '#f9f9f9', borderRadius: '4px' }}>
-          <textarea 
-            value={coverLetter} 
-            onChange={(e) => setCoverLetter(e.target.value)} 
-            placeholder="Optional: Add a cover letter" 
-            style={{ width: '100%', minHeight: '80px', marginBottom: '10px', padding: '8px', borderRadius: '4px', border: '1px solid #ddd' }}
-          />
-          <button 
-            onClick={handleApply} 
-            disabled={isApplying}
-            style={{ marginRight: '10px', padding: '8px 16px', background: '#28a745', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-          >
-            {isApplying ? 'Submitting...' : 'Submit Application'}
-          </button>
-          <button 
-            onClick={() => { setShowCoverLetter(false); setCoverLetter(''); setError(''); }} 
-            style={{ padding: '8px 16px', background: '#6c757d', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-          >
-            Cancel
-          </button>
-        </div>
+        <form onSubmit={handleApply} className="application-expanded-form">
+          <h4>Job Application: {title}</h4>
+          
+          <div className="form-grid">
+            <input type="text" name="fullName" placeholder="Full Name" required onChange={handleChange} />
+            <input type="email" name="nsuEmail" placeholder="NSU Email" required onChange={handleChange} />
+            <input type="text" name="nNumber" placeholder="N# (Student ID)" required onChange={handleChange} />
+            <input type="text" name="major" placeholder="Major" required onChange={handleChange} />
+          </div>
+
+          <input type="text" name="address" placeholder="Local Address" required onChange={handleChange} />
+
+          <div className="form-group">
+            <label>Have you ever worked at NSU?</label>
+            <select name="workedAtNSU" required onChange={handleChange}>
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+            </select>
+          </div>
+
+          {formData.workedAtNSU === 'Yes' && (
+            <input type="text" name="previousDept" placeholder="Which department?" required onChange={handleChange} />
+          )}
+
+          <div className="form-group">
+            <label>Have you already been offered this position?</label>
+            <select name="offeredPosition" required onChange={handleChange}>
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+            </select>
+          </div>
+
+          <div className="form-section">
+            <label className="section-label">References</label>
+            <input type="text" name="reference1" placeholder="Reference 1 (Name & Contact)" required onChange={handleChange} />
+            <input type="text" name="reference2" placeholder="Reference 2 (Name & Contact)" required onChange={handleChange} />
+          </div>
+
+          <div className="form-section">
+            <label className="section-label">Upload Resume (PDF or Word)</label>
+            <input type="file" accept=".pdf,.doc,.docx" required onChange={handleFileChange} className="file-input" />
+          </div>
+
+          <div className="form-actions">
+            <button type="submit" className="submit-btn" disabled={isApplying}>
+              {isApplying ? 'Submitting...' : 'Submit Application'}
+            </button>
+            <button type="button" className="cancel-btn" onClick={() => setShowForm(false)}>Cancel</button>
+          </div>
+        </form>
       )}
     </div>
   );

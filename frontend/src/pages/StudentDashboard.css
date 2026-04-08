@@ -73,6 +73,7 @@
   color: #003087;
   font-weight: bold;
   background: #e6f0ff;
+  text-decoration: none; /* Removed underline for active state to look cleaner */
 }
 
 /* Modern Filter Bar Styling - Enhanced Sizes */
@@ -156,25 +157,99 @@
   border-color: #003087;
 }
 
-/* No Results Message */
-.no-results-msg {
-  text-align: center;
-  padding: 4rem;
-  background: rgba(255, 255, 255, 0.5);
+/* --- Added Resource Display Styling --- */
+
+/* Container for the Resource Views (Payroll & Deposit) */
+.resource-display {
+  background: #ffffff;
+  padding: 2.5rem;
   border-radius: 12px;
-  border: 2px dashed #003087;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
   color: #003087;
-  font-weight: 500;
+  animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Job Cards Container */
-.job-cards-list {
+.resource-header {
+  text-align: center;
+  text-transform: uppercase;
+  border-bottom: 2px solid #003087;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+  letter-spacing: 1px;
+}
+
+/* Payroll Table Styling - Based on provided calendar design */
+.payroll-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+.payroll-table th {
+  background-color: #003087;
+  color: white;
+  padding: 12px;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+.payroll-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.payroll-table tr:nth-child(even) {
+  background-color: #f8fbff;
+}
+
+.footer-note {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: #666;
+  margin-top: 1rem;
+}
+
+/* Direct Deposit Form Styling - Based on Authorization Form design */
+.deposit-form-layout {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
-/* Job Card Styling */
+.form-section h5 {
+  margin-bottom: 1rem;
+  color: #003087;
+  border-left: 5px solid #f2a900; /* Gold NSU Accent */
+  padding-left: 10px;
+  font-size: 1rem;
+}
+
+.form-input, .input-row input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.input-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 10px;
+}
+
+.account-type {
+  margin: 10px 0;
+  padding: 15px;
+  background: #f4f8ff;
+  border-radius: 6px;
+  border: 1px solid #e0e6ed;
+}
+
+/* No Results Message */
 .no-results-msg {
   text-align: center;
   padding: 4rem;
@@ -184,3 +259,175 @@
   font-weight: 500;
   box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
+
+/* Job Cards Container */
+.job-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* --- Job Card & Application Form Styling --- */
+
+.job-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  border-left: 6px solid #003087; /* NSU Blue accent */
+  transition: transform 0.2s;
+}
+
+.job-type {
+  display: inline-block;
+  background: #e6f0ff;
+  color: #003087;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+/* The Main Apply Button */
+.apply-btn-main {
+  background-color: #003087; /* NSU Blue */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background 0.3s;
+}
+
+.apply-btn-main:hover {
+  background-color: #002366;
+}
+
+/* Expanded Form Styling */
+.application-expanded-form {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: #f9fbfd;
+  border-top: 2px solid #eef2f6;
+  border-radius: 8px;
+}
+
+.application-expanded-form h4 {
+  color: #003087;
+  margin-bottom: 1.2rem;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 5px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two columns */
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+/* Individual Inputs */
+.application-expanded-form input[type="text"],
+.application-expanded-form input[type="email"],
+.application-expanded-form select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  box-sizing: border-box; /* Prevents overflow */
+}
+
+.application-expanded-form input:focus {
+  outline: none;
+  border-color: #003087;
+  box-shadow: 0 0 0 3px rgba(0, 48, 135, 0.1);
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 8px;
+}
+
+.form-section {
+  margin-top: 20px;
+}
+
+.form-section h5 {
+  color: #003087;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+/* Submit & Cancel Buttons */
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.submit-btn {
+  background-color: #28a745; /* Green for success/submit */
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  flex: 2;
+}
+
+.cancel-btn {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  flex: 1;
+}
+
+/* Application Status List (for the My Applications view) */
+.application-status-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.status-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.status-label {
+  padding: 6px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+.status-label.pending { background: #fff3cd; color: #856404; }
+.status-label.accepted { background: #d4edda; color: #155724; }
+.status-label.denied { background: #f8d7da; color: #721c24; }

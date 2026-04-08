@@ -8,7 +8,7 @@
   max-width: 1200px;
   margin: 0 auto 2rem auto;
   text-align: center;
-  color: #003087; /* NSU Dark Blue */
+  color: #003087;
 }
 
 .greeting {
@@ -79,7 +79,7 @@
   color: #003087;
   font-weight: bold;
   background: #e6f0ff;
-  text-decoration: none; /* Active links usually look cleaner without the underline */
+  text-decoration: none;
 }
 
 /* Main Content Pane */
@@ -87,11 +87,11 @@
   flex: 1;
 }
 
-/* Centered White Message Box (Matches your "No Results" look) */
+/* Centered White Message Box ) */
 .no-results-msg {
   text-align: center;
   padding: 5rem 2rem;
-  background: white; /* Changed from semi-transparent to solid white for the container look */
+  background: white;
   border-radius: 12px;
   border: 2px dashed #003087;
   color: #003087;
