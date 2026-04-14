@@ -17,6 +17,7 @@ const IconHandbook = () => <span>📘</span>;
 const IconPayroll = () => <span>💰</span>;
 const IconDeposit = () => <span>🏦</span>;
 const IconForms = () => <span>📑</span>;
+const IconDownload = () => <span>📥</span>;
 
 // StudentDashboard component – main dashboard for students to view jobs and application statuses
 function StudentDashboard() {
@@ -201,7 +202,6 @@ function StudentDashboard() {
                       <div className="status-info">
                         <h3>{app.job?.title || "Unknown Position"}</h3>
                         <p>Applied on: {new Date(app.createdAt).toLocaleDateString()}</p>
-                        <p><strong>N#:</strong> {app.nNumber}</p>
                       </div>
                       {/* Visual indicator for Acceptance, Denial, or Pending status */}
                       <div className={`status-label ${app.status?.toLowerCase()}`}>
@@ -228,16 +228,15 @@ function StudentDashboard() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr><td>1</td><td>01/01/2026</td><td>01/10/2026</td><td>01/16/2026</td></tr>
-                  <tr><td>2</td><td>01/11/2026</td><td>01/24/2026</td><td>01/30/2026</td></tr>
-                  <tr><td>3</td><td>01/25/2026</td><td>02/07/2026</td><td>02/13/2026</td></tr>
-                  <tr><td>4</td><td>02/08/2026</td><td>02/21/2026</td><td>02/27/2026</td></tr>
-                  <tr><td>5</td><td>02/22/2026</td><td>03/07/2026</td><td>03/13/2026</td></tr>
-                  <tr><td>6</td><td>03/08/2026</td><td>03/21/2026</td><td>03/27/2026</td></tr>
-                  <tr><td>7</td><td>03/22/2026</td><td>04/04/2026</td><td>04/10/2026</td></tr>
-                  <tr><td>8</td><td>04/05/2026</td><td>04/18/2026</td><td>04/24/2026</td></tr>
-                  <tr><td>9</td><td>04/19/2026</td><td>05/02/2026</td><td>05/08/2026</td></tr>
-                  <tr><td>10</td><td>05/03/2026</td><td>05/16/2026</td><td>05/22/2026</td></tr>
+                  <tr><td>1</td><td>01/05/2026</td><td>01/18/2026</td><td>01/23/2026</td></tr>
+                  <tr><td>2</td><td>01/19/2026</td><td>02/01/2026</td><td>02/06/2026</td></tr>
+                  <tr><td>3</td><td>02/02/2026</td><td>02/15/2026</td><td>02/20/2026</td></tr>
+                  <tr><td>4</td><td>02/16/2026</td><td>03/01/2026</td><td>03/06/2026</td></tr>
+                  <tr><td>5</td><td>03/02/2026</td><td>03/15/2026</td><td>03/20/2026</td></tr>
+                  <tr><td>6</td><td>03/16/2026</td><td>03/29/2026</td><td>04/03/2026</td></tr>
+                  <tr><td>7</td><td>03/30/2026</td><td>04/12/2026</td><td>04/17/2026</td></tr>
+                  <tr><td>8</td><td>04/13/2026</td><td>04/26/2026</td><td>04/30/2026</td></tr>
+                  <tr><td>9</td><td>04/27/2026</td><td>05/10/2026</td><td>05/15/2026</td></tr>
                 </tbody>
               </table>
               <p className="footer-note">*Please ensure all timesheets are approved by the Period End Date.</p>
@@ -247,41 +246,71 @@ function StudentDashboard() {
           {/* Direct Deposit View – matches the uploaded Authorization Form structure */}
           {activeView === 'deposit' && (
             <div className="resource-display">
-              <h3 className="resource-header">Direct Deposit Authorization Form</h3>
-              <form className="deposit-form-layout">
-                <section className="form-section">
-                  <h5>Personal Information</h5>
-                  <input type="text" placeholder="Full Name" className="form-input" />
-                  <input type="text" placeholder="Address" className="form-input" />
-                  <div className="input-row">
-                    <input type="text" placeholder="City" />
-                    <input type="text" placeholder="State" />
-                    <input type="text" placeholder="Zip" />
-                  </div>
-                </section>
-
-                <section className="form-section" style={{ marginTop: '1rem' }}>
-                  <h5>Financial Institution Information</h5>
-                  <input type="text" placeholder="Bank Name" className="form-input" />
-                  <div className="input-row">
-                    <input type="text" placeholder="Routing #" />
-                    <input type="text" placeholder="Account #" />
-                  </div>
-                  <div className="account-type">
-                    <label><input type="radio" name="accType" /> Checking</label>
-                    <label style={{ marginLeft: '1rem' }}><input type="radio" name="accType" /> Savings</label>
-                  </div>
-                </section>
-                <button type="button" className="apply-btn" style={{ marginTop: '1.5rem', width: '100%' }}>Submit Authorization</button>
-              </form>
+              <h3 className="resource-header">Direct Deposit Setup</h3>
+              <div className="download-container">
+                <p>Please download, complete, and submit the Direct Deposit Authorization form to the Student Payroll office.</p>
+                <a href="/SharkHire Direct Deposit.pdf" download="SharkHire_Direct_Deposit.pdf" className="pdf-download-btn">
+                  <IconDownload /> Download SharkHire Direct Deposit Authorization.pdf
+                </a>
+              </div>
             </div>
           )}
 
           {/* Handbook and Forms Fallbacks */}
-          {(activeView === 'handbook' || activeView === 'forms') && (
-            <div className="no-results-msg">
-              <h3>Resources Coming Soon</h3>
-              <p>This module is currently being finalized for the next sprint.</p>
+          {activeView === 'forms' && (
+            <div className="resource-display">
+               <h3 className="resource-header">Onboarding Forms & Resources</h3>
+               <div className="forms-grid">
+                  <div className="form-item">
+                    <p>Employment Eligibility Verification</p>
+                    <a href="/SharkHire I9.pdf" download="SharkHire_I9.pdf" className="pdf-download-btn">
+                      <IconDownload /> Download SharkHire I-9.pdf
+                    </a>
+                  </div>
+                  <div className="form-item" style={{ marginTop: '1.5rem' }}>
+                    <p>Employee's Withholding Certificate</p>
+                    <a href="/SharkHire W4.pdf" download="SharkHire_W4.pdf" className="pdf-download-btn">
+                      <IconDownload /> Download SharkHire W-4.pdf
+                    </a>
+                  </div>
+               </div>
+            </div>
+          )}
+
+          {activeView === 'handbook' && (
+            <div className="resource-display">
+              <h3 className="resource-header">Student Employee Guidelines</h3>
+              
+              <div className="handbook-content" style={{ color: '#333', lineHeight: '1.6' }}>
+                <section style={{ marginBottom: '1.5rem' }}>
+                  <h4 style={{ color: '#003087', marginBottom: '0.5rem' }}>1. Eligibility & Enrollment</h4>
+                  <p>To maintain employment, students must be enrolled at least half-time (6 credits for undergraduates, 3 credits for graduates) during the fall and winter semesters.</p>
+                </section>
+
+                <section style={{ marginBottom: '1.5rem' }}>
+                  <h4 style={{ color: '#003087', marginBottom: '0.5rem' }}>2. Professionalism & Conduct</h4>
+                  <p>Student employees are expected to represent NSU with integrity. This includes arriving on time, adhering to department-specific dress codes, and maintaining a high level of customer service.</p>
+                </section>
+
+                <section style={{ marginBottom: '1.5rem' }}>
+                  <h4 style={{ color: '#003087', marginBottom: '0.5rem' }}>3. Work Hours</h4>
+                  <p>Students are permitted to work up to a maximum of 20 hours per week while classes are in session. During approved university breaks, students may work up to 37.5 hours per week with supervisor approval.</p>
+                </section>
+
+                <section style={{ marginBottom: '1.5rem' }}>
+                  <h4 style={{ color: '#003087', marginBottom: '0.5rem' }}>4. Confidentiality (FERPA)</h4>
+                  <p>Many student roles involve access to sensitive information. All student employees must comply with FERPA regulations and maintain strict confidentiality regarding student records and university data.</p>
+                </section>
+
+                <section style={{ marginBottom: '1.5rem' }}>
+                  <h4 style={{ color: '#003087', marginBottom: '0.5rem' }}>5. Payroll & Timesheets</h4>
+                  <p>Hours must be logged accurately in the SharkTime system. Timesheets should be submitted by the end of each pay period to ensure timely payment according to the biweekly schedule.</p>
+                </section>
+              </div>
+
+              <div style={{ marginTop: '2rem', borderTop: '1px solid #eee', paddingTop: '1rem' }}>
+                <p><strong>Need more details?</strong> Contact the Office of Student Employment.</p>
+              </div>
             </div>
           )}
         </section>
