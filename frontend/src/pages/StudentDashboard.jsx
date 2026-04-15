@@ -19,7 +19,7 @@ const IconDeposit = () => <span>🏦</span>;
 const IconForms = () => <span>📑</span>;
 const IconDownload = () => <span>📥</span>;
 
-// StudentDashboard component – main dashboard for students to view jobs and application statuses
+//StudentDashboard component – main dashboard for students to view jobs and application statuses
 function StudentDashboard() {
   const [activeView, setActiveView] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
@@ -27,7 +27,7 @@ function StudentDashboard() {
   const [isLoadingJobs, setIsLoadingJobs] = useState(true);
   const [jobsError, setJobsError] = useState('');
   
-  // New state to hold the student's submitted applications
+  //New state to hold the student's submitted applications
   const [myApplications, setMyApplications] = useState([]);
   const [isLoadingApps, setIsLoadingApps] = useState(false);
 
@@ -253,7 +253,7 @@ function StudentDashboard() {
               <div className="download-container">
                 <p>Please download, complete, and submit the Direct Deposit Authorization form to the Student Payroll office.</p>
                 <a href="/SharkHire Direct Deposit.pdf" download="SharkHire_Direct_Deposit.pdf" className="pdf-download-btn">
-                  <IconDownload /> Download SharkHire Direct Deposit Authorization.pdf
+                  <IconDownload /> Direct Deposit
                 </a>
               </div>
             </div>
@@ -267,13 +267,13 @@ function StudentDashboard() {
                   <div className="form-item">
                     <p>Employment Eligibility Verification</p>
                     <a href="/SharkHire I9.pdf" download="SharkHire_I9.pdf" className="pdf-download-btn">
-                      <IconDownload /> Download SharkHire I-9.pdf
+                      <IconDownload /> I-9 Form
                     </a>
                   </div>
                   <div className="form-item" style={{ marginTop: '1.5rem' }}>
                     <p>Employee's Withholding Certificate</p>
                     <a href="/SharkHire W4.pdf" download="SharkHire_W4.pdf" className="pdf-download-btn">
-                      <IconDownload /> Download SharkHire W-4.pdf
+                      <IconDownload /> W-4 Form
                     </a>
                   </div>
                </div>

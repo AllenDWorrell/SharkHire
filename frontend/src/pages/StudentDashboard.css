@@ -316,6 +316,7 @@
   width: 100%;
   border-collapse: collapse;
   margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .payroll-table th {
@@ -358,6 +359,7 @@
   border: 1px solid #eef2f6;
   border-left: 6px solid #003087;
 }
+
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
