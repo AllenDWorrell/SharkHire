@@ -23,14 +23,22 @@ function Navbar() {
     navigate('/');
   };
 
+  // Helper function to determine where the brand logo leads
+  const getBrandRedirect = () => {
+    if (!user) return "/";
+    return user.role === 'employer' ? '/employer-dashboard' : '/student-dashboard';
+  };
+
   return (
     <nav className="navbar">
-      <Link to="/" className="navbar__brand">
+      {/* Brand link now dynamically redirects based on login status */}
+      <Link to={getBrandRedirect()} className="navbar__brand">
         <img src="/sharkfin.png" alt="SharkHire Home" className="navbar__logo"/>
         SharkHire 🦈
       </Link>
       <ul className="navbar__links">
-        <li><Link to="/">Home</Link></li>
+        {/* Home link is now only visible if no user is logged in */}
+        {!user && <li><Link to="/">Home</Link></li>}
 
         {/* Shows when user is logged in and has a specific role */}
         {user?.role === 'student' && <li><Link to="/student-dashboard">Dashboard</Link></li>}

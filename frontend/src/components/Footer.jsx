@@ -1,6 +1,5 @@
 // Footer component – site-wide footer
 import React from 'react';
-import './Footer.css'; // We will create this next
 
 function Footer() {
   return (

@@ -1,6 +1,7 @@
 // Root component – sets up React Router and renders page components
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -37,9 +38,12 @@ function RoleProtectedRoute({ allowedRoles, children }) {
 
 function App() {
   return (
-    <>
+    /* 2. Wrap in a div with flexbox to handle the sticky footer */
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Navbar />
-      <main>
+      
+      {/* 3. flex: 1 ensures the main content area grows to fill space, pushing footer down */}
+      <main style={{ flex: '1' }}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
@@ -62,7 +66,10 @@ function App() {
           />
         </Routes>
       </main>
-    </>
+
+      {/* 4. Footer sits at the very bottom */}
+      <Footer />
+    </div>
   );
 }
 

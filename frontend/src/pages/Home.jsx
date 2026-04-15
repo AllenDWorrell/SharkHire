@@ -7,13 +7,16 @@ function Home() {
   const featuredJobs = [];
 
   return (
-    //Text section
-    <div className="hero">
-      <h1 className="sharkhire-title">SharkHire🦈</h1>
-      <p>
-        Your central hub for Nova Southeastern University student employment.
-        Discover NSE and Federal Work-Study opportunities, apply, and track your progress.
-      </p>
+    <div className="home-container">
+
+      {/* Text section */}
+      <div className="hero">
+        <h1 className="sharkhire-title">SharkHire🦈</h1>
+        <p className="hero-subtitle">
+          Your central hub for Nova Southeastern University student employment.
+          Discover NSE and Federal Work-Study opportunities, apply, and track your progress.
+        </p>
+      </div>
 
       {/* Featured Jobs Bar */}
       <div className="featured-jobs-container">
@@ -29,30 +32,34 @@ function Home() {
         </div>
       </div>
 
-      {/*Selection Cards - Students & Employers */}
+      {/* Selection Cards - Students & Employers */}
       <div className="selection-cards">
-        {/*Student Card*/}
-        <Link to="/login" className="btn btn-secondary">
-          <div className="card">
+
+        {/* Student Card */}
+        <Link to="/login" className="selection-card-link">
+          <div className="selection-card">
             <img src="/gradcap.png" alt="Students" className="card-icon" />
             <h2>Students</h2>
             <p>Explore job opportunities, apply, and manage your applications.</p>
           </div>
         </Link>
 
-        {/*Employer Card*/}
-        <Link to="/login" className="btn btn-secondary">
-          <div className="card">
+        {/* Employer Card */}
+        <Link to="/login" className="selection-card-link">
+          <div className="selection-card">
             <img src="/handshake.png" alt="Employers" className="card-icon" />
             <h2>Employers</h2>
             <p>Post job openings, review applications, and manage your workforce.</p>
           </div>
         </Link>
+
       </div>
 
-      {/*Register Link*/}
-      <Link to="/register" className="btn btn-primary">Get Started</Link>
-      
+      {/* Register Link */}
+      <div className="home-actions">
+        <Link to="/register" className="btn btn-primary get-started-btn">Get Started</Link>
+      </div>
+
     </div>
   );
 }

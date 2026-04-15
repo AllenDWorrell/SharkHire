@@ -1,61 +1,62 @@
-/* Layout */
+/* --- Employer Dashboard Container --- */
 .employer-dashboard {
   min-height: 100vh;
-  padding: 2rem;
+  padding: 3rem; /* Matching the student dashboard spacing */
 }
 
 .welcome-section {
-  max-width: 1200px;
-  margin: 0 auto 2rem auto;
+  max-width: 1400px;
+  margin: 0 auto 3rem auto;
   text-align: center;
   color: #003087;
 }
 
 .greeting {
-  font-size: 2.5rem; 
+  font-size: 2.5rem;
   font-weight: bold;
 }
 
-.dashboard-title {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-}
-
-/* Flex container centered in middle of page */
+/* Flex container adjusted for wide-screen positioning */
 .portal-main {
   display: flex;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  gap: 2rem;
+  gap: 4rem; /* Increased gap for breathing room */
   align-items: flex-start;
 }
 
-/* Sidebar Styling */
+/* Sidebar positioned to the left */
 .sidebar-pane {
-  flex: 0 0 320px;
+  flex: 0 0 300px;
+}
+
+/* Focus pane stretched for better content display */
+.focus-pane {
+  flex: 1;
+  max-width: 950px;
 }
 
 .menu-card {
   background: white;
   border-radius: 8px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .menu-card h4 {
   background-color: #003087;
   color: white;
-  padding: 0.5rem;
+  padding: 0.75rem;
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   border-radius: 4px;
 }
 
 .menu-links {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 .link-btn {
@@ -65,8 +66,8 @@
   color: black;
   text-decoration: underline;
   cursor: pointer;
-  padding: 0.5rem;
-  font-size: 1rem;
+  padding: 0.6rem;
+  font-size: 1.05rem;
   border-radius: 4px;
   transition: background 0.2s;
 }
@@ -82,12 +83,7 @@
   text-decoration: none;
 }
 
-/* Main Content Pane */
-.focus-pane {
-  flex: 1;
-}
-
-/* Centered White Message Box ) */
+/* --- Centered Message Box --- */
 .no-results-msg {
   text-align: center;
   padding: 5rem 2rem;
@@ -100,7 +96,7 @@
   box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
-/* Form Specific Styling */
+/* --- Job Post Form Styling (Employer Specific) --- */
 .form-header {
   color: #003087;
   text-align: center;
@@ -124,59 +120,46 @@
 
 .form-group label {
   color: #003087;
-  font-weight: 700;
-  font-size: 1.25rem;
-  margin-bottom: 0.8rem
-  display: block;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
 }
 
 .form-group input, 
 .form-group textarea, 
 .form-group select {
-  padding: 0.8rem;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
+  padding: 14px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
   font-size: 1rem;
   outline: none;
   transition: border-color 0.3s;
 }
 
-/* Focus state for form inputs */
 .form-group input:focus, 
 .form-group textarea:focus, 
 .form-group select:focus {
   border-color: #003087;
+  box-shadow: 0 0 0 3px rgba(0, 48, 135, 0.1);
 }
 
-/* Custom styles for checkboxes and location select to match the design */
-.form-group textarea {
-  min-height: 120px;
-  resize: vertical;
-}
-
-/* Horizontal row for Type, Location, and Hours */
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 1rem;
-}
-
-.form-actions {
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
+  gap: 1.5rem;
 }
 
 .submit-listing-btn {
   background-color: #003087;
   color: white;
   border: none;
-  padding: 1rem 2.5rem;
+  padding: 16px 32px;
   font-size: 1.1rem;
   font-weight: bold;
   border-radius: 8px;
   cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
+  transition: transform 0.2s, background 0.2s;
+  width: 100%;
 }
 
 .submit-listing-btn:hover {
@@ -184,6 +167,126 @@
   transform: translateY(-2px);
 }
 
-.submit-listing-btn:active {
-  transform: translateY(0);
+/* --- Listing & Application Cards --- */
+.job-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.job-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  border-left: 8px solid #003087;
+  text-align: left;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.job-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 48, 135, 0.15);
+}
+
+.job-type {
+  display: inline-block;
+  background: #e6f0ff;
+  color: #003087;
+  padding: 0.3rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+/* --- Resource Display Container --- */
+.resource-display {
+  background: #ffffff;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  color: #003087;
+  display: block !important; /* Forces visibility when the condition is met */
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.resource-header {
+  border-bottom: 3px solid #003087;
+  padding-bottom: 12px;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+/* --- Hiring Guidelines Styling --- */
+.handbook-content section {
+  text-align: left;
+  background: #fdfdfd;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #f0f0f0;
+  margin-bottom: 1.5rem;
+  transition: all 0.2s ease;
+}
+
+.handbook-content section:hover {
+  border-color: #e6f0ff;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 48, 135, 0.05);
+}
+
+.handbook-content h4 {
+  /* This ensures the H4 doesn't look like the blue sidebar buttons */
+  background-color: transparent !important;
+  color: #003087 !important;
+  padding: 0 !important;
+  text-align: left !important;
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.handbook-content p {
+  color: #444;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* --- Consolidated Forms Box --- */
+.form-item-box {
+  background: #f9f9f9;
+  padding: 2rem;
+  border-radius: 12px;
+  border-left: 6px solid #003087;
+  text-align: left;
+}
+
+.forms-download-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.form-notice {
+  background: #eef4ff;
+  padding: 1rem;
+  border-radius: 6px;
+  border: 1px solid #d0e1ff;
+  margin-top: 1rem;
+}
+
+/* --- General Utilities --- */
+.resource-footer {
+  margin-top: 2rem;
+  border-top: 2px solid #e6f0ff;
+  padding-top: 1.5rem;
+  text-align: center;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
 }

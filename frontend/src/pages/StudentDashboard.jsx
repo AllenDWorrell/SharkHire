@@ -164,6 +164,9 @@ function StudentDashboard() {
                       <option value="All">All</option>
                       <option value="Alvin Sherman Library">Alvin Sherman Library</option>
                       <option value="IT Department – Main Campus">IT Department – Main Campus</option>
+                      <option value="Carl DeSantis">Carl DeSantis</option>
+                      <option value="Horvitz Administration">Horvitz Administration</option>
+                      <option value="Don Taft">Don Taft</option>
                     </select>
                   </label>
                 </div>

@@ -29,12 +29,12 @@ a {
 .navbar {
   background-color: #ffffff;         
   color: #003087;                    
-  padding: 1.5rem 4rem; /* Significantly wider horizontal padding */
+  padding: 1.3rem 4rem;
   display: flex;
   justify-content: space-between; 
   align-items: center;
   border-bottom: 3px solid #003087; 
-  width: 100%;
+  width: 101%;
 }
 
 /* SharkHire brand logo and text */
@@ -95,7 +95,7 @@ a {
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center; /* This centers the job cards and filters */
+  align-items: center;
   text-align: center;
 }
 
@@ -105,7 +105,7 @@ a {
 .search-filters-bar,
 .job-cards-list {
   width: 100%;
-  max-width: 850px; /* Constraints cards to match the header width */
+  max-width: 850px;
 }
 
 /* Job card with Animations and Blue Side Tab */
@@ -120,7 +120,7 @@ a {
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   width: 100%;
-  text-align: left; /* Keeps content inside the card readable */
+  text-align: left;
 }
 
 /* The Blue Side Tab pseudo-element */
@@ -215,30 +215,153 @@ a {
 
 /* --- Footer Styling --- */
 .footer {
-  background-color: #003087; /* NSU Dark Blue */
-  color: #ffffff;
-  padding: 2rem 4rem; /* Matches Navbar horizontal padding */
-  width: 100%;
+  background-color: #003087; /* Dark NSU Blue */
+  padding: 0.8rem 0;
+  width: 101%;
   text-align: center;
-  border-top: 3px solid #6ab0f5; /* Light blue accent to separate from page body */
-  margin-top: auto; /* Pushes footer down in flex containers */
+  border-top: 4px solid #6ab0f5; /* Light blue accent line */
+  margin-top: auto;
 }
 
 .footer__content p {
+  /* Ensure the color is pure white to contrast the dark blue */
+  color: #ffffff !important; 
+  
+  /* If it's too small, it vanishes. 0.9rem is a good "small" size */
+  font-size: 0.9rem; 
+  
+  font-weight: 600;
+  font-family: 'Georgia', serif;
+  letter-spacing: 0.5px;
   margin: 0;
+  display: block;
+}
+
+/* --- Home Page Specific Layout --- */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  text-align: center;
+  width: 100%;
   font-size: 1.1rem;
+  min-height: 80vh;
+}
+
+.hero {
+  margin-bottom: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-subtitle {
+  max-width: 700px;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: #444;
+  margin-top: 1rem;
+}
+
+/* Featured Jobs Bar - Centered & Rounded */
+.featured-jobs-container {
+  width: 100%;
+  max-width: 650px;
+  height: auto;
+  background: #ffffff;
+  border-radius: 25px;    
+  overflow: hidden;     
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  border: 1px solid #ddd;
+}
+
+.featured-header {
+  background-color: #003087;
+  color: #ffffff;
+  padding: 1rem;
   font-weight: bold;
-  letter-spacing: 1px;
+  font-size: 1rem;
   font-family: 'Georgia', serif;
 }
 
-/* Optional: Ensuring the page body can handle a sticky footer */
-#root {
+.jobs-bar {
+  padding: 2rem;
+  min-height: 100px;
   display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+  color: #666;
+  font-style: italic;
 }
 
-main {
-  flex: 1; /* This ensures the footer always stays at the bottom even on short pages */
+/* Selection Cards - Centered & Rounded */
+.selection-cards {
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+  align-items: stretch;
+  width: 100%;
+  max-width: 1100px;
+  margin-bottom: 2rem;
+  align-items: center;
+}
+
+.selection-card-link {
+  flex: 1;
+  max-width: 420px;
+  text-decoration: none !important;
+}
+
+.selection-card {
+  background: #ffffff;
+  padding: 3rem 2rem;
+  border-radius: 40px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;     
+  justify-content: center; 
+  text-align: center;      
+  border: 1px solid #f0f0f0;
+}
+
+.selection-card:hover {
+  transform: translateY(-12px); 
+  box-shadow: 0 15px 35px rgba(0, 48, 135, 0.2);
+}
+
+.card-icon {
+  width: 180px;        
+  height: 140px;
+  margin-bottom: 0.5rem;
+  display: block;         
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.selection-card h2 {
+  color: #003087;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  font-family: 'Georgia', serif;
+}
+
+/* Get Started Button Centering */
+.home-actions {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.get-started-btn {
+  padding: 1.2rem, 3rem;
+  font-size: 1.1rem !important;
+  border-radius: 15px !important;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
