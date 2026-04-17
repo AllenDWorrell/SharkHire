@@ -367,6 +367,60 @@
   color: #777;
 }
 
+/* Styling for the new Close/Open and Modify buttons */
+.card-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.edit-btn {
+  background: #e6f0ff;
+  color: #003087;
+  border: 1px solid #003087;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.status-btn {
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.status-btn.close {
+  background: #fff4e5;
+  color: #663c00;
+  border-color: #ffb74d;
+}
+
+.status-btn.reopen {
+  background: #e8f5e9;
+  color: #1b5e20;
+  border-color: #81c784;
+}
+
+/* Visual cues for a closed listing */
+.status-closed {
+  opacity: 0.75;
+  background-color: #f8f9fa;
+  border-left-color: #6c757d !important;
+}
+
+.closed-badge {
+  background: #ffeded;
+  color: #d32f2f;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin-left: 10px;
+  font-weight: bold;
+}
+
 /* --- Animations --- */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }

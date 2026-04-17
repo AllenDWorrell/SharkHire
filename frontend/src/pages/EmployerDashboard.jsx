@@ -1,6 +1,6 @@
 // Employer Dashboard – main dashboard for employers to manage job postings and applications
 import { useEffect, useState } from 'react';
-import { createJob, getJobs, deleteJob } from '../services/api'; // Ensure deleteJob is in your api services
+import { createJob, getJobs, deleteJob, updateJob } from '../services/api'; // Added updateJob
 
 // Importing the CSS file for styling the employer dashboard page.
 import './EmployerDashboard.css';
@@ -14,6 +14,7 @@ const IconGuidelines = () => <span>📘</span>;
 const IconForms = () => <span>📑</span>;
 const IconDownload = () => <span>⬇️ </span>;
 const IconTrash = () => <span>🗑️ </span>;
+const IconEdit = () => <span>✏️ </span>; // Added Edit Icon
 
 function EmployerDashboard() {
   const [activeTab, setActiveTab] = useState('manage-applications');
@@ -23,6 +24,9 @@ function EmployerDashboard() {
   const [isCreatingJob, setIsCreatingJob] = useState(false);
   const [createJobError, setCreateJobError] = useState('');
   const [createJobSuccess, setCreateJobSuccess] = useState('');
+
+  // Track if we are editing an existing job
+  const [editingJobId, setEditingJobId] = useState(null);
 
   const [formData, setFormData] = useState({
     title: '',
@@ -36,6 +40,17 @@ function EmployerDashboard() {
   useEffect(() => {
     loadEmployerJobs();
   }, []);
+
+  // Clear messages after 4 seconds
+  useEffect(() => {
+    if (createJobSuccess || createJobError) {
+      const timer = setTimeout(() => {
+        setCreateJobSuccess('');
+        setCreateJobError('');
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [createJobSuccess, createJobError]);
 
   const loadEmployerJobs = async () => {
     setIsLoadingJobs(true);
@@ -58,6 +73,32 @@ function EmployerDashboard() {
     setFormData({ ...formData, [name]: name === 'hoursPerWeek' ? parseInt(value) : value });
   };
 
+  // Pre-fill form and switch to "Post a Job" tab for editing
+  const startEditing = (job) => {
+    setEditingJobId(job._id);
+    setFormData({
+      title: job.title,
+      description: job.description,
+      type: job.type,
+      location: job.location,
+      hoursPerWeek: job.hoursPerWeek,
+    });
+    setActiveTab('post-job');
+  };
+
+  // Toggle 'isClosed' status to hide from student search without deleting
+  const handleToggleStatus = async (jobId, currentStatus) => {
+    try {
+      const updatedStatus = !currentStatus;
+      const response = await updateJob(jobId, { isClosed: updatedStatus });
+      setActiveJobs((prev) => 
+        prev.map(j => j._id === jobId ? { ...j, isClosed: updatedStatus } : j)
+      );
+    } catch (err) {
+      alert("Failed to update application status.");
+    }
+  };
+
   const handleCreateJob = async (e) => {
     e.preventDefault();
     setCreateJobError('');
@@ -65,23 +106,33 @@ function EmployerDashboard() {
     setIsCreatingJob(true);
 
     try {
-      const response = await createJob({ ...formData });
-      setActiveJobs((prev) => [response.data, ...prev]);
-      setCreateJobSuccess('Job listing created successfully.');
+      if (editingJobId) {
+        // Update existing job logic
+        const response = await updateJob(editingJobId, formData);
+        setActiveJobs((prev) => prev.map(j => j._id === editingJobId ? response.data : j));
+        setCreateJobSuccess('Job listing updated successfully!');
+      } else {
+        // Create new job logic
+        const response = await createJob({ ...formData });
+        setActiveJobs((prev) => [response.data, ...prev]);
+        setCreateJobSuccess('Job listing created successfully.');
+      }
+
       setFormData({ title: '', description: '', type: 'NSE', location: '', hoursPerWeek: 0 });
-      setActiveTab('my-listings');
+      setEditingJobId(null);
+      // Brief delay to show success before switching back
+      setTimeout(() => setActiveTab('my-listings'), 1200);
     } catch (err) {
-      setCreateJobError(err.response?.data?.message || 'Failed to create job listing.');
+      setCreateJobError(err.response?.data?.message || 'Failed to process job listing.');
     } finally {
       setIsCreatingJob(false);
     }
   };
 
-  // Function to remove a listing
   const handleDeleteJob = async (jobId) => {
     if (window.confirm("Are you sure you want to remove this listing? It will no longer be visible to students.")) {
       try {
-        await deleteJob(jobId); // Calls your backend to delete/archive
+        await deleteJob(jobId);
         setActiveJobs((prev) => prev.filter(job => job._id !== jobId));
       } catch (err) {
         alert("Failed to remove job. Please try again.");
@@ -105,7 +156,7 @@ function EmployerDashboard() {
               <button className={`link-btn ${activeTab === 'manage-applications' ? 'active' : ''}`} onClick={() => setActiveTab('manage-applications')}>
                 <IconApplications/> Manage Student Applications
               </button>
-              <button className={`link-btn ${activeTab === 'post-job' ? 'active' : ''}`} onClick={() => setActiveTab('post-job')}>
+              <button className={`link-btn ${activeTab === 'post-job' ? 'active' : ''}`} onClick={() => { setActiveTab('post-job'); setEditingJobId(null); }}>
                 <IconPostJob/> Post a Job
               </button>
               <button className={`link-btn ${activeTab === 'my-listings' ? 'active' : ''}`} onClick={() => setActiveTab('my-listings')}>
@@ -154,18 +205,29 @@ function EmployerDashboard() {
                 <div className="no-results-msg">No active job listings yet.</div>
               ) : (
                 activeJobs.map((job) => (
-                  <div key={job._id} className="job-card">
+                  <div key={job._id} className={`job-card ${job.isClosed ? 'status-closed' : ''}`}>
                     <div className="job-card-header">
-                       <h3>{job.title}</h3>
-                       <span className="job-type">{job.type}</span>
+                       <div className="title-group">
+                         <h3>{job.title}</h3>
+                         <span className="job-type">{job.type}</span>
+                         {job.isClosed && <span className="closed-badge">Closed</span>}
+                       </div>
                     </div>
                     <p className="job-details-short">{job.location} | {job.hoursPerWeek} hrs/week</p>
                     
                     <div className="card-actions">
+                      <button className="edit-btn" onClick={() => startEditing(job)}>
+                        <IconEdit /> Modify
+                      </button>
+
                       <button 
-                        className="remove-btn" 
-                        onClick={() => handleDeleteJob(job._id)}
+                        className={`status-btn ${job.isClosed ? 'reopen' : 'close'}`}
+                        onClick={() => handleToggleStatus(job._id, job.isClosed)}
                       >
+                        {job.isClosed ? '🔓 Open Applications' : '🔒 Close Applications'}
+                      </button>
+
+                      <button className="remove-btn" onClick={() => handleDeleteJob(job._id)}>
                         <IconTrash /> Remove Listing
                       </button>
                     </div>
@@ -177,7 +239,7 @@ function EmployerDashboard() {
 
           {activeTab === 'post-job' && (
             <div className="resource-display">
-              <h3 className="resource-header">Post a New Job</h3>
+              <h3 className="resource-header">{editingJobId ? "Modify Job Listing" : "Post a New Job"}</h3>
               <form className="job-post-form" onSubmit={handleCreateJob}>
                 <div className="form-group">
                   <label htmlFor="title">Job Title</label>
@@ -205,7 +267,7 @@ function EmployerDashboard() {
                   </div>
                 </div>
                 <button type="submit" className="submit-listing-btn" disabled={isCreatingJob}>
-                  {isCreatingJob ? 'Creating...' : 'Create Listing'}
+                  {isCreatingJob ? 'Saving...' : editingJobId ? 'Update Listing' : 'Create Listing'}
                 </button>
                 {createJobSuccess && <p style={{color: 'green', marginTop: '10px'}}>{createJobSuccess}</p>}
                 {createJobError && <p style={{color: 'red', marginTop: '10px'}}>{createJobError}</p>}
@@ -213,7 +275,7 @@ function EmployerDashboard() {
             </div>
           )}
 
-          {/* Guidelines, Payroll, and Forms sections remain unchanged */}
+          {/* Guidelines section */}
           {activeTab === 'guidelines' && (
             <div className="resource-display">
               <h3 className="resource-header">Employer Hiring Guidelines</h3>
@@ -234,6 +296,7 @@ function EmployerDashboard() {
             </div>
           )}
 
+          {/* Payroll section */}
           {activeTab === 'payroll' && (
             <div className="resource-display">
               <h3 className="resource-header">Winter 2026 Pay Periods</h3>
@@ -256,6 +319,7 @@ function EmployerDashboard() {
             </div>
           )}
 
+          {/* Forms section */}
           {activeTab === 'forms' && (
             <div className="resource-display">
               <h3 className="resource-header">Onboarding & Payroll Forms</h3>

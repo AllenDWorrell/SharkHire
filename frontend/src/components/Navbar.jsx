@@ -40,6 +40,9 @@ function Navbar() {
         {/* Home link is now only visible if no user is logged in */}
         {!user && <li><Link to="/">Home</Link></li>}
 
+        {/* About Us link - Always visible so users can view the design team */}
+        <li><Link to="/about">About Us</Link></li>
+
         {/* Shows when user is logged in and has a specific role */}
         {user?.role === 'student' && <li><Link to="/student-dashboard">Dashboard</Link></li>}
         {user?.role === 'employer' && <li><Link to="/employer-dashboard">Dashboard</Link></li>}
