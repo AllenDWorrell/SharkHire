@@ -50,7 +50,7 @@ function Home() {
         </p>
       </div>
 
-      {/* Featured Jobs Bar – Now Dynamically Driven */}
+      {/* Featured Jobs Bar */}
       <div className="featured-jobs-container">
         <div className="featured-header">Featured Jobs</div>
         <div className="jobs-bar">

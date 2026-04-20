@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import StudentDashboard from './pages/StudentDashboard';
 import EmployerDashboard from './pages/EmployerDashboard';
+import AboutUs from './pages/AboutUs';
 
 const getCurrentUser = () => {
   try {
@@ -63,6 +64,10 @@ function App() {
                 <EmployerDashboard />
               </RoleProtectedRoute>
             )}
+          />
+          <Route
+            path="/about"
+            element={<AboutUs />}
           />
         </Routes>
       </main>

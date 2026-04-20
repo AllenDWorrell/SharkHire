@@ -5,7 +5,7 @@ import { createJob, getJobs, deleteJob, updateJob } from '../services/api'; // A
 // Importing the CSS file for styling the employer dashboard page.
 import './EmployerDashboard.css';
 
-// Importing placeholder icons
+//Icons for the sidebar menu – using simple emojis for clarity and visual appeal
 const IconPostJob = () => <span>➕ </span>;
 const IconListings = () => <span>📝</span>;
 const IconApplications = () => <span>📋</span>;
@@ -14,7 +14,7 @@ const IconGuidelines = () => <span>📘</span>;
 const IconForms = () => <span>📑</span>;
 const IconDownload = () => <span>⬇️ </span>;
 const IconTrash = () => <span>🗑️ </span>;
-const IconEdit = () => <span>✏️ </span>; // Added Edit Icon
+const IconEdit = () => <span>✏️ </span>;
 
 function EmployerDashboard() {
   const [activeTab, setActiveTab] = useState('manage-applications');
