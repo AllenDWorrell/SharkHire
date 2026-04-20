@@ -12,6 +12,35 @@
   color: #003087;
   margin-bottom: 0.8rem;
   font-family: 'Georgia', serif;
+  
+  /* New properties for scrolling */
+  display: inline-block;
+  white-space: nowrap;
+  animation: scrollText 25s linear infinite;
+}
+
+/* Container to handle the scrolling window */
+.scrolling-title-container {
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+/* Animation logic for scrolling */
+@keyframes scrollText {
+  from {
+    transform: translateX(200%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* Optional: Pause on hover for accessibility */
+.scrolling-title-container:hover .sharkhire-title {
+  animation-play-state: paused;
 }
 
 body {
@@ -314,7 +343,7 @@ a {
   height: auto;
   background: #ffffff;
   border-radius: 25px;    
-  overflow: hidden;     
+  overflow: hidden;      
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   margin-bottom: 2rem;
   border: 1px solid #ddd;
@@ -381,7 +410,7 @@ a {
   width: 180px;        
   height: 140px;
   margin-bottom: 0.5rem;
-  display: block;         
+  display: block;          
   margin-left: auto;
   margin-right: auto;
 }

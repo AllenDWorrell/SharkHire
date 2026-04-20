@@ -1,0 +1,53 @@
+/* Container for the Mission above the photo */
+.mission-intro {
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #f8f2ee;
+  padding-bottom: 1.5rem;
+}
+
+.mission-intro h2 {
+  color: #003087;
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.mission-intro p {
+  font-size: 1.1rem;
+  color: #555;
+  font-style: italic;
+}
+
+/* Caption immediately under the image */
+.image-caption {
+  margin-top: 0.8rem;
+  font-size: 0.9rem;
+  color: #003087;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Ensure the card is spacious for the group bio */
+.group-card {
+  background: #ffffff;
+  padding: 3.5rem;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 48, 135, 0.1);
+  border-top: 8px solid #003087; /* Changed accent to top for balance */
+  max-width: 950px;
+}
+
+.group-photo {
+  width: 100%;
+  max-width: 750px;
+  height: auto;
+  border-radius: 8px;
+  border: 4px solid #f8f2ee;
+}
+
+.group-bio {
+  text-align: left;
+  line-height: 1.8;
+  color: #333;
+  font-size: 1.05rem;
+  margin-top: 1.5rem;
+}
