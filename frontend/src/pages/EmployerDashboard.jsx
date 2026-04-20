@@ -8,6 +8,7 @@ import './EmployerDashboard.css';
 //Icons for the sidebar menu – using simple emojis for clarity and visual appeal
 const IconPostJob = () => <span>➕ </span>;
 const IconListings = () => <span>📝</span>;
+const IconEye = () => <span>👁️</span>;
 const IconApplications = () => <span>📋</span>;
 const IconPayroll = () => <span>💰</span>;
 const IconGuidelines = () => <span>📘</span>;
