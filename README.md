@@ -59,13 +59,13 @@ sharkhire/
 │
 ├── backend/
 │   ├── config/
-│   │   └── db.js                  # MongoDB connection placeholder
+│   │   └── db.js                  
 │   ├── controllers/
 │   │   ├── authController.js
 │   │   ├── jobController.js
 │   │   └── applicationController.js
 │   ├── middleware/
-│   │   └── authMiddleware.js      # JWT auth middleware placeholder
+│   │   └── authMiddleware.js      
 │   ├── models/
 │   │   ├── User.js
 │   │   ├── Job.js
@@ -90,7 +90,7 @@ sharkhire/
 │   │   │   ├── StudentDashboard.jsx
 │   │   │   └── EmployerDashboard.jsx
 │   │   ├── services/
-│   │   │   └── api.js             # Axios API service placeholder
+│   │   │   └── api.js            
 │   │   ├── App.jsx
 │   │   ├── main.jsx
 │   │   └── index.css

@@ -16,6 +16,8 @@ const generateToken = (userId) => {
 const registerUser = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
+    const normalizedEmail = email?.toLowerCase().trim();
+    const normalizedRole = role || 'student';
 
     // Validate required fields
     if (!name || !email || !password) {
@@ -28,8 +30,16 @@ const registerUser = async (req, res) => {
       return res.status(400).json({ message: 'Invalid role. Must be student, employer, or admin' });
     }
 
+    if (normalizedRole === 'employer' && !normalizedEmail.endsWith('@nova.edu')) {
+      return res.status(400).json({ message: 'Employer accounts must use an @nova.edu email address' });
+    }
+
+    if (normalizedRole === 'student' && !normalizedEmail.endsWith('@mynsu.nova.edu')) {
+      return res.status(400).json({ message: 'Student accounts must use an @mynsu.nova.edu email address' });
+    }
+
     // Check if user already exists
-    const existingUser = await User.findOne({ email: email.toLowerCase() });
+    const existingUser = await User.findOne({ email: normalizedEmail });
     if (existingUser) {
       return res.status(409).json({ message: 'Email already registered' });
     }
@@ -41,9 +51,9 @@ const registerUser = async (req, res) => {
     // Create user
     const user = await User.create({
       name: name.trim(),
-      email: email.toLowerCase(),
+      email: normalizedEmail,
       password: hashedPassword,
-      role: role || 'student',
+      role: normalizedRole,
     });
 
     // Generate token

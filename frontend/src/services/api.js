@@ -34,4 +34,8 @@ export const createApplication = (data) => API.post('/applications', data);
 export const updateApplication = (id, data) => API.put(`/applications/${id}`, data);
 export const deleteApplication = (id) => API.delete(`/applications/${id}`);
 
+// --- Resumes ---
+export const uploadResume = (formData) => API.post('/resumes', formData);
+export const downloadResume = (fileId) => API.get(`/resumes/${fileId}`, { responseType: 'blob' });
+
 export default API;

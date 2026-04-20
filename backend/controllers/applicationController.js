@@ -79,7 +79,11 @@ const getApplicationById = async (req, res) => {
 
 const createApplication = async (req, res) => {
   try {
-    const { job, coverLetter, student } = req.body;
+    const {
+      job, coverLetter, student, resumeId, resumeFilename,
+      fullName, nsuEmail, nNumber, address, major,
+      workedAtNSU, previousDept, offeredPosition, reference1, reference2,
+    } = req.body;
     const studentId = req.user?.id || student;
 
     if (!studentId || !job) {
@@ -117,6 +121,10 @@ const createApplication = async (req, res) => {
       student: studentId,
       job,
       coverLetter: coverLetter?.trim(),
+      resumeId: resumeId || undefined,
+      resumeFilename: resumeFilename || undefined,
+      fullName, nsuEmail, nNumber, address, major,
+      workedAtNSU, previousDept, offeredPosition, reference1, reference2,
     });
 
     res.status(201).json(application);

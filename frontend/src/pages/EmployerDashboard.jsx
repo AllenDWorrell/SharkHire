@@ -1,6 +1,6 @@
 // Employer Dashboard – main dashboard for employers to manage job postings and applications
 import { useEffect, useState } from 'react';
-import { createJob, getJobs, deleteJob, updateJob } from '../services/api'; // Added updateJob
+import { createJob, getJobs, deleteJob, updateJob, getApplications, updateApplication, downloadResume } from '../services/api'; // Ensure deleteJob is in your api services
 
 // Importing the CSS file for styling the employer dashboard page.
 import './EmployerDashboard.css';
@@ -19,6 +19,12 @@ const IconEdit = () => <span>✏️ </span>;
 function EmployerDashboard() {
   const [activeTab, setActiveTab] = useState('manage-applications');
   const [applications, setApplications] = useState([]);
+  const [applicationsError, setApplicationsError] = useState('');
+  const [isLoadingApplications, setIsLoadingApplications] = useState(false);
+  const [expandedApps, setExpandedApps] = useState({});
+
+  const toggleExpand = (id) =>
+    setExpandedApps((prev) => ({ ...prev, [id]: !prev[id] }));
   const [activeJobs, setActiveJobs] = useState([]);
   const [isLoadingJobs, setIsLoadingJobs] = useState(false);
   const [isCreatingJob, setIsCreatingJob] = useState(false);
@@ -36,9 +42,10 @@ function EmployerDashboard() {
     hoursPerWeek: 0,
   });
 
-  // Load employer's jobs on mount
+  // Load employer's jobs and applications on mount
   useEffect(() => {
     loadEmployerJobs();
+    loadApplications();
   }, []);
 
   // Clear messages after 4 seconds
@@ -51,6 +58,58 @@ function EmployerDashboard() {
       return () => clearTimeout(timer);
     }
   }, [createJobSuccess, createJobError]);
+
+  const loadApplications = async () => {
+    setIsLoadingApplications(true);
+    setApplicationsError('');
+    try {
+      const response = await getApplications();
+      setApplications(response.data || []);
+    } catch (err) {
+      setApplicationsError(err.response?.data?.message || 'Failed to load applications. Is the server running?');
+    } finally {
+      setIsLoadingApplications(false);
+    }
+  };
+
+  const handleStatusChange = async (appId, newStatus) => {
+    try {
+      const response = await updateApplication(appId, { status: newStatus });
+      setApplications((prev) =>
+        prev.map((app) => (app._id === appId ? response.data : app))
+      );
+    } catch (err) {
+      alert('Failed to update status.');
+    }
+  };
+
+  const handleDownloadResume = async (fileId, filename) => {
+    try {
+      const response = await downloadResume(fileId);
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', filename || 'resume');
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      alert('Failed to download resume.');
+    }
+  };
+  const handleViewResume = async (fileId) => {
+  try {
+    const response = await downloadResume(fileId);
+    // Create a blob from the response data specifically as a PDF
+    const file = new Blob([response.data], { type: 'application/pdf' });
+    const fileURL = URL.createObjectURL(file);
+    // Open the URL in a new browser tab
+    window.open(fileURL, '_blank');
+  } catch (err) {
+    alert('Failed to view resume.');
+  }
+};
 
   const loadEmployerJobs = async () => {
     setIsLoadingJobs(true);
@@ -184,13 +243,76 @@ function EmployerDashboard() {
         <main className="focus-pane">
           {activeTab === 'manage-applications' && (
             <div className="job-cards-list">
-              {applications.length === 0 ? (
-                <div className="no-results-msg">No new student applications to review.</div>
+              {isLoadingApplications ? (
+                <div className="no-results-msg">Loading applications...</div>
+              ) : applicationsError ? (
+                <div className="no-results-msg" style={{ color: 'red' }}>{applicationsError}</div>
+              ) : applications.length === 0 ? (
+                <div className="no-results-msg">No student applications to review.</div>
               ) : (
-                applications.map(app => (
+                applications.map((app) => (
                   <div key={app._id} className="job-card">
-                    <h3>{app.studentName || 'Student'} — {app.job?.title}</h3>
-                    <p>Status: <strong>{app.status?.toUpperCase()}</strong></p>
+                    <div className="job-card-header">
+                      <h3>{app.fullName || app.student?.name || 'Student'}</h3>
+                      <span className="job-type">{app.status?.toUpperCase()}</span>
+                    </div>
+                    <p className="job-details-short">
+                      {app.student?.email} <strong>{app.job?.title}</strong>
+                    </p>
+
+                    {expandedApps[app._id] && (
+                      <div className="app-details">
+                        <div className="app-details-grid">
+                          <div><span className="detail-label">N#</span><span>{app.nNumber || '—'}</span></div>
+                          <div><span className="detail-label">Major</span><span>{app.major || '—'}</span></div>
+                          <div><span className="detail-label">Address</span><span>{app.address || '—'}</span></div>
+                          <div><span className="detail-label">Worked at NSU</span><span>{app.workedAtNSU || '—'}</span></div>
+                          {app.workedAtNSU === 'Yes' && (
+                            <div><span className="detail-label">Previous Dept</span><span>{app.previousDept || '—'}</span></div>
+                          )}
+                          <div><span className="detail-label">Offered Position</span><span>{app.offeredPosition || '—'}</span></div>
+                          <div><span className="detail-label">Reference 1</span><span>{app.reference1 || '—'}</span></div>
+                          <div><span className="detail-label">Reference 2</span><span>{app.reference2 || '—'}</span></div>
+                                                    <div><span className="detail-label">Reference 1 Email</span><span>{app.reference1Email || '—'}</span></div>
+                          <div><span className="detail-label">Reference 2 Email</span><span>{app.reference2Email || '—'}</span></div>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="card-actions">
+                      <button className="toggle-details-btn" onClick={() => toggleExpand(app._id)}>
+                        {expandedApps[app._id] ? 'Hide Details' : 'View Details'}
+                      </button>
+                      <select
+                        value={app.status}
+                        onChange={(e) => handleStatusChange(app._id, e.target.value)}
+                        className="status-select"
+                      >
+                        <option value="pending">Pending</option>
+                        <option value="reviewed">Reviewed</option>
+                        <option value="accepted">Accepted</option>
+                        <option value="rejected">Rejected</option>
+                      </select>
+
+                      // view resume button also goes here if resume exists
+                      {app.resumeId && (
+                        <button
+                          className="view-resume-btn"
+                          onClick={() => handleViewResume(app.resumeId)}
+                        >
+                          <IconEye /> View Resume
+                        </button>
+                      )}
+                      {app.resumeId && (
+                        <button
+                          className="download-resume-btn"
+                          onClick={() => handleDownloadResume(app.resumeId, app.resumeFilename)}
+                        >
+                          <IconDownload /> Download Resume
+                        </button>
+                      )}
+                      
+                    </div>
                   </div>
                 ))
               )}

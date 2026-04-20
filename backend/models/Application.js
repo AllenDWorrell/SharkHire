@@ -13,6 +13,18 @@ const applicationSchema = new mongoose.Schema(
       default: 'pending',
     },
     coverLetter: { type: String },
+    resumeId: { type: mongoose.Schema.Types.ObjectId },
+    resumeFilename: { type: String },
+    fullName: { type: String },
+    nsuEmail: { type: String },
+    nNumber: { type: String },
+    address: { type: String },
+    major: { type: String },
+    workedAtNSU: { type: String },
+    previousDept: { type: String },
+    offeredPosition: { type: String },
+    reference1: { type: String },
+    reference2: { type: String },
   },
   { timestamps: true, collection: 'Applications' }
 );

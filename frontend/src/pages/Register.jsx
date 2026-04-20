@@ -30,6 +30,7 @@ function Register() {
     e.preventDefault();
     setError('');
     setIsLoading(true);
+    const normalizedEmail = formData.email.toLowerCase().trim();
 
     // Validate passwords match
     if (formData.password !== formData.confirmPassword) {
@@ -38,10 +39,22 @@ function Register() {
       return;
     }
 
+    if (formData.role === 'employer' && !normalizedEmail.endsWith('@nova.edu')) {
+      setError('Employer accounts must use an @nova.edu email address');
+      setIsLoading(false);
+      return;
+    }
+
+    if (formData.role === 'student' && !normalizedEmail.endsWith('@mynsu.nova.edu')) {
+      setError('Student accounts must use an @mynsu.nova.edu email address');
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const response = await registerUser({
         name: formData.name,
-        email: formData.email,
+        email: normalizedEmail,
         password: formData.password,
         role: formData.role,
       });
