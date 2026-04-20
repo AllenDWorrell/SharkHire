@@ -295,7 +295,6 @@ function EmployerDashboard() {
                         <option value="rejected">Rejected</option>
                       </select>
 
-                      // view resume button also goes here if resume exists
                       {app.resumeId && (
                         <button
                           className="view-resume-btn"
