@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { createApplication } from '../services/api';
+import { createApplication, uploadResume } from '../services/api';
 
 function JobCard({ job }) {
   const { _id, title, type, location, hoursPerWeek, description } = job || {};
@@ -43,14 +43,21 @@ function JobCard({ job }) {
     setSuccess('');
     setIsApplying(true);
 
-    // Use FormData for file uploads
-    const data = new FormData();
-    data.append('jobId', _id);
-    data.append('resume', resume);
-    Object.keys(formData).forEach(key => data.append(key, formData[key]));
-
     try {
-      await createApplication(data);
+      // Step 1: Upload the resume file to GridFS
+      const fileData = new FormData();
+      fileData.append('resume', resume);
+      const uploadRes = await uploadResume(fileData);
+      const { fileId, filename } = uploadRes.data;
+
+      // Step 2: Submit the application with the returned file ID and all form fields
+      await createApplication({
+        job: _id,
+        resumeId: fileId,
+        resumeFilename: filename,
+        ...formData,
+      });
+
       setSuccess('Application submitted successfully!');
       setShowForm(false);
       setResume(null);
@@ -78,7 +85,6 @@ function JobCard({ job }) {
           
           <div className="form-grid">
             <input type="text" name="fullName" placeholder="Full Name" required onChange={handleChange} />
-            <input type="email" name="nsuEmail" placeholder="NSU Email" required onChange={handleChange} />
             <input type="text" name="nNumber" placeholder="N# (Student ID)" required onChange={handleChange} />
             <input type="text" name="major" placeholder="Major" required onChange={handleChange} />
           </div>
@@ -107,8 +113,10 @@ function JobCard({ job }) {
 
           <div className="form-section">
             <label className="section-label">References</label>
-            <input type="text" name="reference1" placeholder="Reference 1 (Name & Contact)" required onChange={handleChange} />
-            <input type="text" name="reference2" placeholder="Reference 2 (Name & Contact)" required onChange={handleChange} />
+            <input type="text" name="reference1" placeholder="Reference 1 (Name)" required onChange={handleChange} />
+            <input type="email" name="reference1Email" placeholder="Reference 1 Email (e.g., reference1@example.com)" required onChange={handleChange} />
+            <input type="text" name="reference2" placeholder="Reference 2 (Name)" required onChange={handleChange} />
+            <input type="email" name="reference2Email" placeholder="Reference 2 Email (e.g., reference2@example.com)" required onChange={handleChange} />
           </div>
 
           <div className="form-section">

@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm --version)",
+      "Bash(mongod --version)",
+      "Bash(winget install:*)",
+      "Bash(net start:*)",
+      "Bash(sc query:*)",
+      "Bash(npm run:*)",
+      "Bash(echo \"Backend started with PID $!\")",
+      "Bash(echo \"Frontend started with PID $!\")",
+      "Bash(mongodump --version)",
+      "Bash(pkill -f \"nodemon server.js\")",
+      "Bash(powershell -Command \"Stop-Process -Id \\(Get-NetTCPConnection -LocalPort 5000 -State Listen\\).OwningProcess -Force\")",
+      "Bash(node server.js)",
+      "Bash(kill %1)",
+      "Bash(netstat -ano)",
+      "Bash(findstr :5000)",
+      "Bash(tasklist)",
+      "Bash(findstr 9604)",
+      "Bash(taskkill *)",
+      "Bash(cmd.exe *)",
+      "Bash(cmd *)",
+      "Bash(powershell *)"
+    ]
+  }
+}

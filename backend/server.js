@@ -21,11 +21,13 @@ app.use(express.json());
 const authRoutes = require('./routes/authRoutes');
 const jobRoutes = require('./routes/jobRoutes');
 const applicationRoutes = require('./routes/applicationRoutes');
+const resumeRoutes = require('./routes/resumeRoutes');
 
 // API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/jobs', jobRoutes);
 app.use('/api/applications', applicationRoutes);
+app.use('/api/resumes', resumeRoutes);
 
 // Test endpoint
 app.get('/api/test', (req, res) => {
