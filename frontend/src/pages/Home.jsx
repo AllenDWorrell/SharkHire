@@ -11,15 +11,10 @@ function Home() {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        // Replace with your actual API endpoint for job listings
-        const response = await axios.get('http://localhost:5000/api/jobs');
-        
-        // Extract titles and limit to the most recent 5 for the ticker
-        const titles = response.data.map(job => job.title);
-        setFeaturedJobs(titles.slice(0, 5));
+        const response = await axios.get('http://localhost:5000/api/jobs?isOpen=true');
+        setFeaturedJobs(response.data.slice(0, 6));
       } catch (error) {
         console.error("Error fetching featured jobs:", error);
-        // Fallback or empty state handling
         setFeaturedJobs([]);
       }
     };
@@ -52,24 +47,28 @@ function Home() {
 
       {/* Featured Jobs Bar */}
       <div className="featured-jobs-container">
-        <div className="featured-header">Featured Jobs</div>
-        <div className="jobs-bar">
+        <div className="featured-header">
+          <span>⚡ Latest Opportunities</span>
+        </div>
+        <div className="jobs-card-strip">
           {featuredJobs.length > 0 ? (
-            <div className="ticker-wrapper">
-              {featuredJobs.map((title, index) => (
-                <span key={index} className="job-token">
-                  {title} <span className="separator">•</span>
+            featuredJobs.map((job) => (
+              <div key={job._id} className="featured-job-card">
+                <span className={`featured-badge ${job.type === 'FWS' ? 'badge-fws' : 'badge-nse'}`}>
+                  {job.type}
                 </span>
-              ))}
-              {/* Duplicate the list for a seamless loop if the titles are many */}
-              {featuredJobs.map((title, index) => (
-                <span key={`dup-${index}`} className="job-token" aria-hidden="true">
-                  {title} <span className="separator">•</span>
-                </span>
-              ))}
-            </div>
+                <h4 className="featured-job-title">{job.title}</h4>
+                {job.location && (
+                  <p className="featured-job-meta">📍 {job.location}</p>
+                )}
+                {job.hoursPerWeek > 0 && (
+                  <p className="featured-job-meta">🕐 {job.hoursPerWeek} hrs/week</p>
+                )}
+                <Link to="/login" className="featured-apply-btn">View Job</Link>
+              </div>
+            ))
           ) : (
-            <span className="placeholder-text">New opportunities coming soon...</span>
+            <p className="placeholder-text">New opportunities coming soon...</p>
           )}
         </div>
       </div>

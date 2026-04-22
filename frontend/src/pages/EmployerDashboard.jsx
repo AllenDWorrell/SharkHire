@@ -147,12 +147,12 @@ function EmployerDashboard() {
   };
 
   // Toggle 'isClosed' status to hide from student search without deleting
-  const handleToggleStatus = async (jobId, currentStatus) => {
+  const handleToggleStatus = async (jobId, currentIsOpen) => {
     try {
-      const updatedStatus = !currentStatus;
-      const response = await updateJob(jobId, { isClosed: updatedStatus });
-      setActiveJobs((prev) => 
-        prev.map(j => j._id === jobId ? { ...j, isClosed: updatedStatus } : j)
+      const newIsOpen = !currentIsOpen;
+      await updateJob(jobId, { isOpen: newIsOpen });
+      setActiveJobs((prev) =>
+        prev.map(j => j._id === jobId ? { ...j, isOpen: newIsOpen } : j)
       );
     } catch (err) {
       alert("Failed to update application status.");
@@ -327,26 +327,26 @@ function EmployerDashboard() {
                 <div className="no-results-msg">No active job listings yet.</div>
               ) : (
                 activeJobs.map((job) => (
-                  <div key={job._id} className={`job-card ${job.isClosed ? 'status-closed' : ''}`}>
+                  <div key={job._id} className={`job-card ${!job.isOpen ? 'status-closed' : ''}`}>
                     <div className="job-card-header">
                        <div className="title-group">
                          <h3>{job.title}</h3>
                          <span className="job-type">{job.type}</span>
-                         {job.isClosed && <span className="closed-badge">Closed</span>}
+                         {!job.isOpen && <span className="closed-badge">Closed</span>}
                        </div>
                     </div>
                     <p className="job-details-short">{job.location} | {job.hoursPerWeek} hrs/week</p>
-                    
+
                     <div className="card-actions">
                       <button className="edit-btn" onClick={() => startEditing(job)}>
                         <IconEdit /> Modify
                       </button>
 
-                      <button 
-                        className={`status-btn ${job.isClosed ? 'reopen' : 'close'}`}
-                        onClick={() => handleToggleStatus(job._id, job.isClosed)}
+                      <button
+                        className={`status-btn ${!job.isOpen ? 'reopen' : 'close'}`}
+                        onClick={() => handleToggleStatus(job._id, job.isOpen)}
                       >
-                        {job.isClosed ? '🔓 Open Applications' : '🔒 Close Applications'}
+                        {!job.isOpen ? '🔓 Open Applications' : '🔒 Close Applications'}
                       </button>
 
                       <button className="remove-btn" onClick={() => handleDeleteJob(job._id)}>
