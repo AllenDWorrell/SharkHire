@@ -6,6 +6,11 @@ import JobCard from '../components/JobCard';
 // Added getApplications to the API imports
 import { getJobs, getApplications } from '../services/api';
 
+// Importing onboarding forms from assets
+import i9Form from '../assets/SharkHire I9.pdf';
+import w4Form from '../assets/SharkHire W4.pdf';
+import directDeposit from '../assets/SharkHire Direct Deposit.pdf';
+
 //Importing the CSS file for styling the student dashboard page.
 import './StudentDashboard.css';
 
@@ -163,10 +168,14 @@ function StudentDashboard() {
                     >
                       <option value="All">All</option>
                       <option value="Alvin Sherman Library">Alvin Sherman Library</option>
-                      <option value="IT Department – Main Campus">IT Department – Main Campus</option>
+                      <option value="IT Department">IT Department</option>
                       <option value="Carl DeSantis">Carl DeSantis</option>
                       <option value="Horvitz Administration">Horvitz Administration</option>
-                      <option value="Don Taft">Don Taft</option>
+                      <option value="Don Taft University Center">Don Taft University Center</option>
+                      <option value="Student Affairs & Services">Student Affairs & Services</option>
+                      <option value="Housing & Residential Life">Housing & Residential Life</option>
+                      <option value="Recreation & Wellness">Recreation & Wellness</option>
+                      <option value="Maltz Building">Maltz Building</option>
                     </select>
                   </label>
                 </div>
@@ -252,9 +261,7 @@ function StudentDashboard() {
               <h3 className="resource-header">Direct Deposit Setup</h3>
               <div className="download-container">
                 <p>Please download, complete, and submit the Direct Deposit Authorization form to the Student Payroll office.</p>
-                <a href="/SharkHire Direct Deposit.pdf" download="SharkHire_Direct_Deposit.pdf" className="pdf-download-btn">
-                  <IconDownload /> Direct Deposit
-                </a>
+                <a href={directDeposit} download className="pdf-download-btn"><IconDownload /> Direct Deposit</a>
               </div>
             </div>
           )}
@@ -266,15 +273,11 @@ function StudentDashboard() {
                <div className="forms-grid">
                   <div className="form-item">
                     <p>Employment Eligibility Verification</p>
-                    <a href="/SharkHire I9.pdf" download="SharkHire_I9.pdf" className="pdf-download-btn">
-                      <IconDownload /> I-9 Form
-                    </a>
+                    <a href={i9Form} download className="pdf-download-btn"><IconDownload /> I-9 Form</a>
                   </div>
                   <div className="form-item" style={{ marginTop: '1.5rem' }}>
                     <p>Employee's Withholding Certificate</p>
-                    <a href="/SharkHire W4.pdf" download="SharkHire_W4.pdf" className="pdf-download-btn">
-                      <IconDownload /> W-4 Form
-                    </a>
+                    <a href={w4Form} download className="pdf-download-btn"><IconDownload /> W-4 Form</a>
                   </div>
                </div>
             </div>

@@ -1,15 +1,16 @@
 /* Main Container - Added display flex and margin to center everything and gap footer */
 .about-container {
   padding: 1rem 1rem;
-  margin-bottom: 2rem; /* Creates substantial space before the footer */
+  margin-bottom: 2rem;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centers header and cards horizontally */
+  align-items: center;
   width: 100%;
 }
 
 /* Make the heading meet the team bigger */
 .about-header h1 {
+  padding: 2rem;
   font-size: 3rem;
   padding: 0.5rem 1rem;
   color: #003087;
@@ -39,7 +40,7 @@
   border-top: 10px solid #003087; /* Slightly thicker for the bigger card */
   max-width: 1000px;
   width: 100%;
-  text-align: center; /* Centers headings and images inside the card */
+  text-align: center;
 }
 
 /* Container for the Mission above the photo */
@@ -52,11 +53,31 @@
 
 .mission-intro h2 {
   color: #003087;
-  font-size: 2.2rem; /* Increased size */
+  font-size: 2.2rem;
   margin-bottom: 0.5rem;
 }
 
 .mission-intro p {
+  font-size: 1.2rem;
+  color: #555;
+  font-style: italic;
+}
+
+/* Container for the Vision above the photo */
+.vision-intro {
+  margin-bottom: 2.5rem;
+  border-bottom: 2px solid #f8f2ee;
+  padding-bottom: 2rem;
+  text-align: center;
+}
+
+.vision-intro h2 {
+  color: #003087;
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.vision-intro p {
   font-size: 1.2rem;
   color: #555;
   font-style: italic;
@@ -78,7 +99,7 @@
   border: 4px solid #f8f2ee;
 }
 
-/* Caption immediately under the image - Font made bigger */
+/* Caption immediately under the image */
 .image-caption {
   margin-top: 1.2rem;
   font-size: 1rem;

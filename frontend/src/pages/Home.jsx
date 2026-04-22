@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import gradCap from '../assets/gradcap.png';
+import handShake from '../assets/handshake.png';
+
 function Home() {
   // Array containing jobs that will be displayed in the dynamic bar
   const [featuredJobs, setFeaturedJobs] = useState([]);
@@ -34,11 +37,11 @@ function Home() {
       <div className="scrolling-title-container">
         <div className="scrolling-content">
           <h1 className="sharkhire-title">
-            <i>Built by Sharks, for Sharks 🦈 &nbsp;&nbsp;</i>
+            <i>Built for Sharks, by Sharks 🦈 &nbsp;&nbsp;</i>
           </h1>
           {/* Secondary hidden header to create the infinite scroll effect */}
           <h1 className="sharkhire-title" aria-hidden="true">
-            <i>Built by Sharks, for Sharks 🦈 &nbsp;&nbsp;</i>
+            <i>Built for Sharks, by Sharks 🦈 &nbsp;&nbsp;</i>
           </h1>
         </div>
       </div>
@@ -80,7 +83,7 @@ function Home() {
         {/* Student Card */}
         <Link to="/login" className="selection-card-link">
           <div className="selection-card">
-            <img src="/gradcap.png" alt="Students" className="card-icon" />
+            <img src={gradCap} alt="Students" className="card-icon" />
             <h2>Students</h2>
             <p>Explore job opportunities, apply, and manage your applications.</p>
           </div>
@@ -89,7 +92,7 @@ function Home() {
         {/* Employer Card */}
         <Link to="/login" className="selection-card-link">
           <div className="selection-card">
-            <img src="/handshake.png" alt="Employers" className="card-icon" />
+            <img src={handShake} alt="Employers" className="card-icon" />
             <h2>Employers</h2>
             <p>Post job openings, review applications, and manage your workforce.</p>
           </div>

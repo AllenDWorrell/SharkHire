@@ -8,7 +8,7 @@
   justify-content: center;
   align-items: center;
   background-image: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)),
-                    url('/nsu_img.jpeg');
+                    url('../assets/nsu_img.jpeg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -108,9 +108,11 @@
 }
 
 /* Highlights input field with blue border when focused */
-.form-group input:focus {
-  outline: none;
-  border-color: #003087;
+.form-group {
+  padding: 0 2rem;
+  margin-bottom: 1.2rem;
+  border: none;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 /* Centers the login button */

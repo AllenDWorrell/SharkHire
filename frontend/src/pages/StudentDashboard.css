@@ -1,7 +1,11 @@
+/* --- Google Font Import --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 /* --- Student Dashboard Container --- */
 .student-dashboard {
   min-height: 100vh;
-  padding: 3rem; /* Increased padding for more overall space */
+  padding: 3rem;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 .welcome-section {
@@ -235,7 +239,8 @@
 
 .status-label.pending { background: #fff3cd; color: #856404; }
 .status-label.accepted { background: #d4edda; color: #155724; }
-.status-label.denied { background: #f8d7da; color: #721c24; }
+.status-label.rejected { background: #ffeded; color: #d32f2f; }
+.status-label.reviewed { background: #e0f0ff; color: #003087; }
 
 /* --- Job Cards (Centered in Focus Pane) --- */
 .job-cards-list {
@@ -360,6 +365,24 @@
   border-left: 6px solid #003087;
 }
 
+.status-info {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.status-info h3 {
+  margin: 0;
+  color: #003087;
+  font-size: 1.1rem;
+}
+
+.status-info p {
+  margin: 0;
+  color: #555;
+  font-size: 0.9rem;
+}
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
