@@ -1,6 +1,11 @@
 // Employer Dashboard – main dashboard for employers to manage job postings and applications
 import { useEffect, useState } from 'react';
-import { createJob, getJobs, deleteJob, updateJob, getApplications, updateApplication, downloadResume } from '../services/api'; // Ensure deleteJob is in your api services
+import { createJob, getJobs, deleteJob, updateJob, getApplications, updateApplication, downloadResume } from '../services/api';
+
+// Importing onboarding forms from assets
+import i9Form from '../assets/SharkHire I9.pdf';
+import w4Form from '../assets/SharkHire W4.pdf';
+import directDeposit from '../assets/SharkHire Direct Deposit.pdf';
 
 // Importing the CSS file for styling the employer dashboard page.
 import './EmployerDashboard.css';
@@ -75,9 +80,10 @@ function EmployerDashboard() {
 
   const handleStatusChange = async (appId, newStatus) => {
     try {
-      const response = await updateApplication(appId, { status: newStatus });
+      await updateApplication(appId, { status: newStatus });
+      // This prevents student email and other populated fields from being lost
       setApplications((prev) =>
-        prev.map((app) => (app._id === appId ? response.data : app))
+        prev.map((app) => (app._id === appId ? { ...app, status: newStatus } : app))
       );
     } catch (err) {
       alert('Failed to update status.');
@@ -99,18 +105,19 @@ function EmployerDashboard() {
       alert('Failed to download resume.');
     }
   };
+
   const handleViewResume = async (fileId) => {
-  try {
-    const response = await downloadResume(fileId);
-    // Create a blob from the response data specifically as a PDF
-    const file = new Blob([response.data], { type: 'application/pdf' });
-    const fileURL = URL.createObjectURL(file);
-    // Open the URL in a new browser tab
-    window.open(fileURL, '_blank');
-  } catch (err) {
-    alert('Failed to view resume.');
-  }
-};
+    try {
+      const response = await downloadResume(fileId);
+      // Create a blob from the response data specifically as a PDF
+      const file = new Blob([response.data], { type: 'application/pdf' });
+      const fileURL = URL.createObjectURL(file);
+      // Open the URL in a new browser tab
+      window.open(fileURL, '_blank');
+    } catch (err) {
+      alert('Failed to view resume.');
+    }
+  };
 
   const loadEmployerJobs = async () => {
     setIsLoadingJobs(true);
@@ -255,10 +262,13 @@ function EmployerDashboard() {
                   <div key={app._id} className="job-card">
                     <div className="job-card-header">
                       <h3>{app.fullName || app.student?.name || 'Student'}</h3>
-                      <span className="job-type">{app.status?.toUpperCase()}</span>
+                      {/* Status badge with dynamic color based on application status */}
+                      <span className={`status-badge ${app.status?.toLowerCase()}`}>
+                        {app.status?.toUpperCase()}
+                      </span>
                     </div>
                     <p className="job-details-short">
-                      {app.student?.email} <strong>{app.job?.title}</strong>
+                      {app.student?.email || app.email || '—'} &nbsp;<strong>{app.job?.title || '—'}</strong>
                     </p>
 
                     {expandedApps[app._id] && (
@@ -274,12 +284,13 @@ function EmployerDashboard() {
                           <div><span className="detail-label">Offered Position</span><span>{app.offeredPosition || '—'}</span></div>
                           <div><span className="detail-label">Reference 1</span><span>{app.reference1 || '—'}</span></div>
                           <div><span className="detail-label">Reference 2</span><span>{app.reference2 || '—'}</span></div>
-                                                    <div><span className="detail-label">Reference 1 Email</span><span>{app.reference1Email || '—'}</span></div>
+                          <div><span className="detail-label">Reference 1 Email</span><span>{app.reference1Email || '—'}</span></div>
                           <div><span className="detail-label">Reference 2 Email</span><span>{app.reference2Email || '—'}</span></div>
                         </div>
                       </div>
                     )}
 
+                    {/* All action buttons on one line — uniform NSU blue style */}
                     <div className="card-actions">
                       <button className="toggle-details-btn" onClick={() => toggleExpand(app._id)}>
                         {expandedApps[app._id] ? 'Hide Details' : 'View Details'}
@@ -294,7 +305,10 @@ function EmployerDashboard() {
                         <option value="accepted">Accepted</option>
                         <option value="rejected">Rejected</option>
                       </select>
+<<<<<<< HEAD
 
+=======
+>>>>>>> f7ee5caae355536e1fd1c4018412b8228e53f067
                       {app.resumeId && (
                         <button
                           className="view-resume-btn"
@@ -311,7 +325,6 @@ function EmployerDashboard() {
                           <IconDownload /> Download Resume
                         </button>
                       )}
-                      
                     </div>
                   </div>
                 ))
@@ -343,8 +356,13 @@ function EmployerDashboard() {
                       </button>
 
                       <button
+<<<<<<< HEAD
                         className={`status-btn ${!job.isOpen ? 'reopen' : 'close'}`}
                         onClick={() => handleToggleStatus(job._id, job.isOpen)}
+=======
+                        className={`status-btn ${job.isClosed ? 'reopen' : 'close'}`}
+                        onClick={() => handleToggleStatus(job._id, job.isClosed)}
+>>>>>>> f7ee5caae355536e1fd1c4018412b8228e53f067
                       >
                         {!job.isOpen ? '🔓 Open Applications' : '🔒 Close Applications'}
                       </button>
@@ -450,9 +468,9 @@ function EmployerDashboard() {
                   <h4 className="form-box-title">New Hire Onboarding Packet</h4>
                   <p className="form-description">Download and complete these forms to enable student payroll setup.</p>
                   <div className="forms-download-container">
-                    <a href="/SharkHire I9.pdf" download className="pdf-download-btn"><IconDownload /> I-9 Form</a>
-                    <a href="/SharkHire W4.pdf" download className="pdf-download-btn"><IconDownload /> W-4 Form</a>
-                    <a href="/SharkHire Direct Deposit.pdf" download className="pdf-download-btn"><IconDownload /> Direct Deposit</a>
+                    <a href={i9Form} download className="pdf-download-btn"><IconDownload /> I-9 Form</a>
+                    <a href={w4Form} download className="pdf-download-btn"><IconDownload /> W-4 Form</a>
+                    <a href={directDeposit} download className="pdf-download-btn"><IconDownload /> Direct Deposit</a>
                   </div>
                   <div className="form-notice">
                     <p><strong>Note:</strong> Students cannot start work until I-9 verification is complete.</p>

@@ -2,6 +2,8 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
+import sharkFin from '../assets/sharkfin.png';
+
 function Navbar() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
@@ -33,7 +35,7 @@ function Navbar() {
     <nav className="navbar">
       {/* Brand link now dynamically redirects based on login status */}
       <Link to={getBrandRedirect()} className="navbar__brand">
-        <img src="/sharkfin.png" alt="SharkHire Home" className="navbar__logo"/>
+        <img src={sharkFin} alt="SharkHire Home" className="navbar__logo"/>
         SharkHire 🦈
       </Link>
       <ul className="navbar__links">

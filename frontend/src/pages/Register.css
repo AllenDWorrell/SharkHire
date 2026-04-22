@@ -8,7 +8,7 @@
   justify-content: center;
   align-items: center;
   background-image: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)),
-                    url('/nsu_img.jpeg');
+                    url('../assets/nsu_img.jpeg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -103,10 +103,12 @@
 .form-group input {
   width: 100%;
   box-sizing: border-box;
-  padding: 6px 10px;         /* Slightly smaller for compact layout */
+  padding: 6px 10px;
   font-size: 14px;
-  border: 1px solid #bbb;
-  border-radius: 3px;
+  border: none;
+  border-bottom: 1px solid #bbb;
+  border-radius: 0;
+  outline: none;
 }
 
 /* Highlights input field with blue border when focused */
@@ -119,12 +121,14 @@
 .form-group select {
   width: 100%;
   box-sizing: border-box;
-  padding: 6px 10px;         /* Matches input padding */
+  padding: 6px 10px;
   font-size: 14px;
-  border: 1px solid #bbb;
-  border-radius: 3px;
+  border: none;
+  border-bottom: 1px solid #bbb;
+  border-radius: 0;
   background: white;
   cursor: pointer;
+  outline: none;
 }
 
 /* Highlights dropdown with blue border when focused */
