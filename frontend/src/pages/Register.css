@@ -15,15 +15,15 @@
   background-attachment: fixed;
 }
 
-/* White card container with NSU blue border — same size as login card */
+/* White card container with NSU blue border  */
 .register-card {
   background: white;
   border: 3px solid #003087;
   border-radius: 4px;
   width: 100%;
-  max-width: 420px;        /* Same width as login card */
-  max-height: 95vh;        /* Prevents card from going off screen */
-  overflow-y: auto;        /* Adds scroll if content is too tall */
+  max-width: 420px;        
+  max-height: 95vh;        
+  overflow-y: auto;       
   padding-bottom: 1rem;
 }
 
@@ -80,21 +80,21 @@
   text-align: center;
   font-size: 20px;
   font-weight: 400;
-  margin: 0.8rem 0 0.5rem;  /* Tighter spacing to fit all fields */
+  margin: 0.8rem 0 0.5rem;
   color: #111;
 }
 
 /* Wrapper for each label and input pair */
 .form-group {
   padding: 0 2rem;
-  margin-bottom: 0.6rem;    /* Tighter spacing between fields */
+  margin-bottom: 0.6rem;
 }
 
 /* Labels for all registration fields */
 .form-group label {
   display: block;
   font-weight: 600;
-  font-size: 14px;           /* Slightly smaller to save space */
+  font-size: 14px; 
   margin-bottom: 4px;
   color: #111;
 }
@@ -140,7 +140,7 @@
 /* Centers the Create Account button */
 .register-btn-wrapper {
   text-align: center;
-  margin: 0.8rem 0;          /* Tighter spacing around button */
+  margin: 0.8rem 0;          
 }
 
 /* Create Account button styling */

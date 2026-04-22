@@ -2,8 +2,10 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
+//Import shark fin logo for the navbar
 import sharkFin from '../assets/sharkfin.png';
 
+//Function component for the navigation bar, showing different links based on user authentication status and role. Also includes a logout button that clears localStorage and redirects to home.
 function Navbar() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
@@ -18,6 +20,7 @@ function Navbar() {
     }
   }, [location.pathname]);
 
+  //Logout function that clears user data from localStorage and redirects to home page
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
@@ -25,6 +28,7 @@ function Navbar() {
     navigate('/');
   };
 
+  //Render the navigation bar with conditional links based on user authentication and role
   return (
     <nav className="navbar">
       <Link to="/" className="navbar__brand">
@@ -42,6 +46,7 @@ function Navbar() {
         {user?.role === 'student' && <li><Link to="/student-dashboard">Dashboard</Link></li>}
         {user?.role === 'employer' && <li><Link to="/employer-dashboard">Dashboard</Link></li>}
 
+        {/* Shows login/register links when no user is logged in, and welcome message + logout when user is logged in */}
         {user ? (
           <>
             <li><span style={{ color: '#333', fontWeight: '600' }}>Welcome, {user.name}!</span></li>
@@ -56,6 +61,7 @@ function Navbar() {
           </>
         ) : (
           <>
+            {/* Links to login and register pages when no user is logged in */}
             <li><Link to="/login">Login</Link></li>
             <li><Link to="/register">Register</Link></li>
           </>

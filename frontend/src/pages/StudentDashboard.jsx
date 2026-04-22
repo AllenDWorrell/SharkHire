@@ -3,10 +3,11 @@ import { useState, useEffect } from 'react';
 
 //Student Dashboard – shows job listings and application statuses for a student
 import JobCard from '../components/JobCard';
-// Added getApplications to the API imports
+
+//Added getApplications to the API imports
 import { getJobs, getApplications } from '../services/api';
 
-// Importing onboarding forms from assets
+//Importing onboarding forms from assets
 import i9Form from '../assets/SharkHire I9.pdf';
 import w4Form from '../assets/SharkHire W4.pdf';
 import directDeposit from '../assets/SharkHire Direct Deposit.pdf';
@@ -14,7 +15,7 @@ import directDeposit from '../assets/SharkHire Direct Deposit.pdf';
 //Importing the CSS file for styling the student dashboard page.
 import './StudentDashboard.css';
 
-// Importing placeholder icons
+//Importing placeholder icons
 const IconJobs = () => <span>🔍</span>;
 const IconSearch = () => <span>🔍</span>;
 const IconStatus = () => <span>📄</span>;
@@ -36,13 +37,14 @@ function StudentDashboard() {
   const [myApplications, setMyApplications] = useState([]);
   const [isLoadingApps, setIsLoadingApps] = useState(false);
 
+  //State for job type and location filters
   const [filters, setFilters] = useState({
     fws: true,
     nse: true,
     location: 'All',
   });
 
-  // Effect to load jobs on mount
+  //Effect to load jobs on mount
   useEffect(() => {
     const loadJobs = async () => {
       setIsLoadingJobs(true);
@@ -60,7 +62,7 @@ function StudentDashboard() {
     loadJobs();
   }, []);
 
-  // New effect to load applications whenever the user switches to the 'applications' view
+  //New effect to load applications whenever the user switches to the 'applications' view
   useEffect(() => {
     if (activeView === 'applications') {
       const loadApps = async () => {
@@ -78,7 +80,7 @@ function StudentDashboard() {
     }
   }, [activeView]);
 
-  // Logic to filter jobs based on checkbox selection
+  //Logic to filter jobs based on checkbox selection
   const filteredJobs = jobs.filter((job) => {
     const matchesSearch = job.title.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesType = (filters.fws && job.type === 'FWS') || (filters.nse && job.type === 'NSE');
@@ -87,6 +89,7 @@ function StudentDashboard() {
     return matchesSearch && matchesType && matchesLocation;
   });
 
+  //State and handlers for the application form within JobCard
   return (
     <div className="student-dashboard">
       {/*Welcome Header for students*/}
@@ -143,6 +146,8 @@ function StudentDashboard() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 />
+
+                {/* Filter checkboxes for FWS/NSE and location dropdown */}
                 <div className="filter-tags">
                   <label>
                     <input 
@@ -199,6 +204,7 @@ function StudentDashboard() {
             </div>
           )}
 
+          {/* Applications View – shows the student's submitted applications and their statuses */}
           {activeView === 'applications' && (
             <div className="applications-view">
               {isLoadingApps ? (
@@ -283,6 +289,7 @@ function StudentDashboard() {
             </div>
           )}
 
+          {/* Handbook View – shows key policies and guidelines for student employees */}
           {activeView === 'handbook' && (
             <div className="resource-display">
               <h3 className="resource-header">Student Employee Guidelines</h3>

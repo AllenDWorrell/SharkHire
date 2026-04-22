@@ -3,14 +3,16 @@ import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+//Importing assets for the selection cards
 import gradCap from '../assets/gradcap.png';
 import handShake from '../assets/handshake.png';
 
+//Functional component for the Home page
 function Home() {
-  // Array containing jobs that will be displayed in the dynamic bar
+  //Array containing jobs that will be displayed in the dynamic bar
   const [featuredJobs, setFeaturedJobs] = useState([]);
 
-  // Fetch featured jobs from backend API and store in state
+  //Fetch featured jobs from backend API and store in state
   useEffect(() => {
     const fetchJobs = async () => {
       try {
@@ -25,6 +27,7 @@ function Home() {
     fetchJobs();
   }, []);
 
+  //JSX for the Home page, including the scrolling text, featured jobs bar, selection cards, and register link
   return (
     <div className="home-container">
 

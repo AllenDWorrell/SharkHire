@@ -1,8 +1,13 @@
+// AboutUs.jsx
 import React from 'react';
+
+//Import CSS for styling the About Us page
 import './AboutUs.css';
 
+//Import group photo
 import sharkhireGroup from '../assets/SharkHireGroup.png';
 
+//Team member data with mission and vision statements
 const teamMembers = [
   {
     name: "Allen Worrell | Sarina Lotlikar | Bry'Nice Berley",
@@ -12,6 +17,7 @@ const teamMembers = [
   }
 ];
 
+//Function component for the About Us page, showcasing the team and their mission/vision statements
 function AboutUs() {
   return (
     <div className="about-container">
@@ -37,12 +43,14 @@ function AboutUs() {
               <p>Finding a job on campus shouldn't be harder than your classes. We are here to eliminate the confusion of JobX and give Sharks a direct, stress-free path to the roles they need!</p>
             </div>
 
+            {/* Group photo with caption immediately below */}
             <div className="group-image-container">
               <img src={member.image} alt="SharkHire Design Team" className="group-photo" />
               {/* Caption immediately below image */}
-              <p className="image-caption">Team members named left to right: Allen Worrell, Bry'Nice Berley, Sarina Lotlikar</p>
+              <p className="image-caption">Team members named left to right: Allen Worrell, Sarina Lotlikar, Bry'Nice Berley</p>
             </div>
 
+            {/* Member name, role, and bio below the image and caption */}
             <h3>{member.name}</h3>
             <p className="member-role">{member.role}</p>
             <p className="member-bio group-bio">{member.bio}</p>

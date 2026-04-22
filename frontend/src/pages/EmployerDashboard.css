@@ -1,32 +1,35 @@
-/* --- Google Font Import --- */
+/* Google Font Import */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 
-/* --- Employer Dashboard Container --- */
+/*  Employer Dashboard Container */
 .employer-dashboard {
   min-height: 100vh;
   padding: 3rem;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
+/* Welcome section at the top of the dashboard */
 .welcome-section {
   max-width: 1200px;
   margin: 0 auto 2.5rem auto;
   text-align: center;
 }
 
+/* Welcome message styling */
 .welcome-section h1 {
   color: #003087;
   font-size: 2.2rem;
   margin-bottom: 0.5rem;
 }
 
+/* Subheading styling */
 .welcome-section p {
   color: #555;
   font-size: 1.1rem;
 }
 
-/* --- Layout Structure --- */
+/*  Layout Structure  */
 .portal-main {
   display: flex;
   max-width: 1200px;
@@ -35,15 +38,17 @@
   align-items: flex-start;
 }
 
+/* Sidebar tasks and main content area */
 .sidebar-pane {
   flex: 0 0 320px;
 }
 
+/* Focus pane expands to fill remaining space */
 .focus-pane {
   flex: 1;
 }
 
-/* --- Sidebar Menu Cards --- */
+/* Sidebar Menu Cards */
 .menu-card {
   background: #ffffff;
   border-radius: 12px;
@@ -52,6 +57,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
+/* Menu card headers with NSU blue background */
 .menu-card h4 {
   background-color: #003087;
   color: #ffffff;
@@ -62,12 +68,14 @@
   font-size: 1rem;
 }
 
+/* Menu links styled as buttons */
 .menu-links {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
+/* Individual link buttons in the sidebar */
 .link-btn {
   background: none;
   border: none;
@@ -83,17 +91,19 @@
   gap: 10px;
 }
 
+/* Hover and active states for sidebar links */
 .link-btn:hover {
   background-color: #f0f4f8;
 }
 
+/* Active state for the currently selected menu item */
 .link-btn.active {
   background-color: #e6f0ff;
   color: #003087;
   font-weight: 600;
 }
 
-/* --- Content Areas (Resource Display) --- */
+/*  Content Areas (Resource Display)  */
 .resource-display {
   background: #ffffff;
   padding: 2.5rem;
@@ -102,6 +112,7 @@
   animation: fadeIn 0.3s ease-out;
 }
 
+/* Resource section headers */
 .resource-header {
   color: #003087;
   border-bottom: 2px solid #e6f0ff;
@@ -110,7 +121,7 @@
   font-size: 1.6rem;
 }
 
-/* --- Hiring Guidelines Sections --- */
+/*  Hiring Guidelines Sections  */
 .handbook-content section {
   text-align: left;
   background: #fdfdfd;
@@ -120,23 +131,25 @@
   margin-bottom: 1.25rem;
 }
 
+/* Subheaders within the handbook content */
 .handbook-content h4 {
   color: #003087;
   margin-bottom: 0.5rem;
   font-size: 1.1rem;
   font-weight: 700;
-  background: none !important; /* Prevents sidebar blue box style */
+  background: none !important;
   padding: 0 !important;
   text-align: left !important;
 }
 
+/* Paragraph text within the handbook content */
 .handbook-content p {
   color: #444;
   line-height: 1.6;
   margin: 0;
 }
 
-/* --- Consolidated Forms Box --- */
+/*  Consolidated Forms Box  */
 .form-item-box {
   background: #f9fbff;
   padding: 2rem;
@@ -146,17 +159,20 @@
   text-align: left;
 }
 
+/* Form box header */
 .form-box-title {
   color: #003087;
   margin-top: 0;
   font-size: 1.3rem;
 }
 
+/* Divider line between form description and download buttons */
 .form-description {
   color: #666;
   margin-bottom: 1.5rem;
 }
 
+/* Vertical divider line */
 .forms-download-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -164,6 +180,7 @@
   margin-bottom: 1.5rem;
 }
 
+/* PDF download buttons for each form */
 .pdf-download-btn {
   display: flex;
   align-items: center;
@@ -179,10 +196,12 @@
   transition: background 0.2s;
 }
 
+/* Hover effect for PDF download buttons */
 .pdf-download-btn:hover {
   background-color: #002566;
 }
 
+/* Notice box for form instructions or important information */
 .form-notice {
   background: #fff;
   border: 1px dashed #003087;
@@ -192,13 +211,14 @@
   color: #003087;
 }
 
-/* --- Job Cards --- */
+/*  Job Cards  */
 .job-cards-list {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
+/* Individual job listing cards */
 .job-card {
   background: #fff;
   padding: 1.5rem;
@@ -208,11 +228,13 @@
   text-align: left;
 }
 
+/* Job title within the job card */
 .job-card h3 {
   margin: 0 0 0.5rem 0;
   color: #333;
 }
 
+/* Job type badge */
 .job-type {
   display: inline-block;
   background: #e6f0ff;
@@ -224,7 +246,7 @@
   margin-bottom: 0.5rem;
 }
 
-/* --- Job Posting Form Container --- */
+/*  Job Posting Form Container  */
 .job-post-form {
   display: flex;
   flex-direction: column;
@@ -232,12 +254,13 @@
   padding: 1rem 0;
 }
 
-/* --- Expanding the Container & Listings --- */
+/*  Expanding the Container & Listings  */
 .focus-pane {
   flex: 1;
   width: 100%;
 }
 
+/* Active listings container to hold job cards */
 .active-listings-container {
   width: 100%;
   max-width: 900px;
@@ -247,6 +270,7 @@
   gap: 1.2rem;
 }
 
+/* Each job card in the active listings */
 .active-listings-container .job-card {
   width: 100%;
   max-width: none;
@@ -255,6 +279,7 @@
   text-align: left;
 }
 
+/* Job title in the active listings */
 .active-listings-container .job-card h3 {
   width: auto;
   padding: 0;
@@ -263,6 +288,7 @@
   color: #003087;
 }
 
+/* Job type badge in the active listings */
 .active-listings-container .card-actions {
   width: 100%;
   display: flex;
@@ -272,6 +298,7 @@
   border-top: 1px solid #f0f0f0;
 }
 
+/* Remove listing button in the active listings */
 .active-listings-container .remove-btn {
   padding: 6px 14px;
   font-size: 0.85rem;
@@ -313,21 +340,25 @@
   margin-bottom: 0.3rem;
 }
 
+/* Status badge colors for each application status */
 .status-badge.pending {
   background: #fff4e5;
   color: #b45309;
 }
 
+/* Reviewed status badge */
 .status-badge.reviewed {
   background: #e0f0ff;
   color: #003087;
 }
 
+/* Accepted status badge */
 .status-badge.accepted {
   background: #e8f5e9;
   color: #1b5e20;
 }
 
+/* Rejected status badge */
 .status-badge.rejected {
   background: #ffeded;
   color: #d32f2f;
@@ -351,12 +382,14 @@
   transition: background-color 0.2s;
 }
 
+/* Hover effect for all action buttons */
 .toggle-details-btn:hover,
 .download-resume-btn:hover,
 .view-resume-btn:hover {
   background-color: #00205f;
 }
 
+/* Application details section that expands when "View Details" is clicked */
 .app-details {
   margin: 0.75rem 0;
   padding: 0.75rem 1rem;
@@ -365,18 +398,21 @@
   border: 1px solid #e5e7eb;
 }
 
+/* Grid layout for application details */
 .app-details-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.5rem 1.5rem;
 }
 
+/* Labels and values within the application details grid */
 .app-details-grid > div {
   display: flex;
   flex-direction: column;
   font-size: 0.875rem;
 }
 
+/* Labels for each detail field in the application details */
 .detail-label {
   font-size: 0.75rem;
   font-weight: 600;
@@ -386,7 +422,7 @@
   margin-bottom: 2px;
 }
 
-/* --- Individual Input Boxes --- */
+/* Individual Input Boxes */
 .form-group {
   display: flex;
   flex-direction: column;
@@ -398,11 +434,13 @@
   transition: border-color 0.2s;
 }
 
+/* Highlight form group with blue border when any input inside is focused */
 .form-group:focus-within {
   border-color: #003087;
   box-shadow: 0 0 0 1px #003087;
 }
 
+/* Labels for all form fields */
 .form-group label {
   font-size: 0.85rem;
   font-weight: 700;
@@ -410,6 +448,7 @@
   margin-bottom: 4px;
 }
 
+/* Text input fields for all form inputs */
 .form-group input,
 .form-group textarea,
 .form-group select {
@@ -422,18 +461,19 @@
   outline: none;
 }
 
-/* --- Bottom Row Grid --- */
+/* Bottom Row Grid */
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 1.2rem;
 }
 
-/* --- Submit Button Styles --- */
+/* Submit Button Styles */
 .form-actions {
   margin-top: 1rem;
 }
 
+/* Submit button for job listing form */
 .submit-listing-btn {
   width: 100%;
   background-color: #003087;
@@ -447,16 +487,18 @@
   transition: background-color 0.2s;
 }
 
+/* Hover effect for submit button */
 .submit-listing-btn:hover {
   background-color: #002266;
 }
 
-/* --- Payroll Table --- */
+/* Payroll Table */
 .payroll-table {
   width: 100%;
   border-collapse: collapse;
 }
 
+/* Header row styling for payroll table */
 .payroll-table th {
   background-color: #003087;
   color: white;
@@ -464,11 +506,13 @@
   text-align: left;
 }
 
+/* Data row styling for payroll table */
 .payroll-table td {
   padding: 12px;
   border-bottom: 1px solid #eee;
 }
 
+/* Zebra striping for payroll table rows */
 .no-results-msg {
   background: #fff;
   padding: 3rem;
@@ -484,6 +528,7 @@
   flex-wrap: wrap;
 }
 
+/* Edit listing button */
 .edit-btn {
   background: #e6f0ff;
   color: #003087;
@@ -494,6 +539,7 @@
   cursor: pointer;
 }
 
+/* Close/Open listing button with different colors based on status */
 .status-btn {
   padding: 8px 14px;
   border-radius: 6px;
@@ -502,12 +548,14 @@
   border: 1px solid transparent;
 }
 
+/* Close listing button */
 .status-btn.close {
   background: #fff4e5;
   color: #663c00;
   border-color: #ffb74d;
 }
 
+/* Reopen listing button */
 .status-btn.reopen {
   background: #e8f5e9;
   color: #1b5e20;
@@ -521,6 +569,7 @@
   border-left-color: #6c757d !important;
 }
 
+/* Closed badge next to job title for closed listings */
 .closed-badge {
   background: #ffeded;
   color: #d32f2f;
@@ -531,7 +580,7 @@
   font-weight: bold;
 }
 
-/* --- Animations --- */
+/* Animations */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }

@@ -22,6 +22,7 @@ const IconDownload = () => <span>⬇️ </span>;
 const IconTrash = () => <span>🗑️ </span>;
 const IconEdit = () => <span>✏️ </span>;
 
+//Function component for the employer dashboard, which includes tabs for managing applications, posting jobs, viewing active listings, and accessing resources. It handles state management for job listings, applications, form data, and UI interactions such as expanding application details and editing job listings. The component also includes error handling and loading states for a smooth user experience.
 function EmployerDashboard() {
   const [activeTab, setActiveTab] = useState('manage-applications');
   const [applications, setApplications] = useState([]);
@@ -29,6 +30,7 @@ function EmployerDashboard() {
   const [isLoadingApplications, setIsLoadingApplications] = useState(false);
   const [expandedApps, setExpandedApps] = useState({});
 
+  //Toggle function to expand/collapse application details in the UI
   const toggleExpand = (id) =>
     setExpandedApps((prev) => ({ ...prev, [id]: !prev[id] }));
   const [activeJobs, setActiveJobs] = useState([]);
@@ -37,9 +39,10 @@ function EmployerDashboard() {
   const [createJobError, setCreateJobError] = useState('');
   const [createJobSuccess, setCreateJobSuccess] = useState('');
 
-  // Track if we are editing an existing job
+  //Track if we are editing an existing job
   const [editingJobId, setEditingJobId] = useState(null);
 
+  //Form state for creating/editing job listings
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -48,13 +51,13 @@ function EmployerDashboard() {
     hoursPerWeek: 0,
   });
 
-  // Load employer's jobs and applications on mount
+  //Load employer's jobs and applications on mount
   useEffect(() => {
     loadEmployerJobs();
     loadApplications();
   }, []);
 
-  // Clear messages after 4 seconds
+  //Clear messages after 4 seconds
   useEffect(() => {
     if (createJobSuccess || createJobError) {
       const timer = setTimeout(() => {
@@ -65,6 +68,7 @@ function EmployerDashboard() {
     }
   }, [createJobSuccess, createJobError]);
 
+  //Function to load student applications from the server, with error handling and loading state management
   const loadApplications = async () => {
     setIsLoadingApplications(true);
     setApplicationsError('');
@@ -78,6 +82,7 @@ function EmployerDashboard() {
     }
   };
 
+  //Function to update the status of a student application, with error handling and state update to reflect changes in the UI without losing populated fields
   const handleStatusChange = async (appId, newStatus) => {
     try {
       await updateApplication(appId, { status: newStatus });
@@ -90,6 +95,7 @@ function EmployerDashboard() {
     }
   };
 
+  //Function to download a student's resume as a PDF file, with error handling to alert the user if the download fails
   const handleDownloadResume = async (fileId, filename) => {
     try {
       const response = await downloadResume(fileId);
@@ -106,6 +112,7 @@ function EmployerDashboard() {
     }
   };
 
+  //Function to view a student's resume in a new browser tab, with error handling to alert the user if the resume cannot be displayed
   const handleViewResume = async (fileId) => {
     try {
       const response = await downloadResume(fileId);
@@ -119,6 +126,7 @@ function EmployerDashboard() {
     }
   };
 
+  //Function to load the employer's job listings from the server, filtering them based on the logged-in user's ID, with error handling and loading state management
   const loadEmployerJobs = async () => {
     setIsLoadingJobs(true);
     try {
@@ -135,12 +143,13 @@ function EmployerDashboard() {
     }
   };
 
+  //Function to handle changes in the job posting form, updating the form data state accordingly. It also ensures that the hoursPerWeek field is stored as an integer.
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: name === 'hoursPerWeek' ? parseInt(value) : value });
   };
 
-  // Pre-fill form and switch to "Post a Job" tab for editing
+  //Pre-fill form and switch to "Post a Job" tab for editing
   const startEditing = (job) => {
     setEditingJobId(job._id);
     setFormData({
@@ -153,7 +162,7 @@ function EmployerDashboard() {
     setActiveTab('post-job');
   };
 
-  // Toggle 'isClosed' status to hide from student search without deleting
+  //Toggle 'isClosed' status to hide from student search without deleting
   const handleToggleStatus = async (jobId, currentIsOpen) => {
     try {
       const newIsOpen = !currentIsOpen;
@@ -166,6 +175,7 @@ function EmployerDashboard() {
     }
   };
 
+  //Function to handle the creation of a new job listing or the update of an existing one, with form validation, error handling, and state updates to reflect changes in the UI. It also includes a brief delay to show success messages before switching back to the listings tab.
   const handleCreateJob = async (e) => {
     e.preventDefault();
     setCreateJobError('');
@@ -196,6 +206,7 @@ function EmployerDashboard() {
     }
   };
 
+  //Function to delete a job listing, with a confirmation prompt to prevent accidental deletions. It also includes error handling to alert the user if the deletion fails and updates the state to remove the deleted job from the UI without needing to reload the page.
   const handleDeleteJob = async (jobId) => {
     if (window.confirm("Are you sure you want to remove this listing? It will no longer be visible to students.")) {
       try {
@@ -208,6 +219,7 @@ function EmployerDashboard() {
     }
   };
 
+  //The JSX return statement renders the employer dashboard UI, including a welcome section, a sidebar with navigation buttons for different tabs (managing applications, posting jobs, viewing listings, and accessing resources), and a main focus pane that conditionally displays content based on the active tab. The UI includes loading states, error messages, and interactive elements such as buttons and forms for managing job listings and student applications.
   return (
     <div className="employer-dashboard">
       <section className="welcome-section">
@@ -215,6 +227,7 @@ function EmployerDashboard() {
         <p>Manage your job postings and review student applications.</p>
       </section>
 
+      {/* Main portal area with sidebar navigation and focus pane for content display. The sidebar contains buttons for different sections of the dashboard, while the focus pane conditionally renders content based on the selected tab. This structure allows employers to easily navigate between managing applications, posting jobs, viewing active listings, and accessing resources without leaving the dashboard. */}
       <div className="portal-main">
         <aside className="sidebar-pane">
           <div className="menu-card">
@@ -248,6 +261,7 @@ function EmployerDashboard() {
           </div>
         </aside>
 
+        {/* Focus pane that conditionally renders content based on the active tab. Each section includes loading states, error handling, and interactive elements such as buttons and forms to manage job listings and student applications effectively. This design allows employers to seamlessly navigate and perform actions within the dashboard without needing to refresh or navigate away from the page. */}
         <main className="focus-pane">
           {activeTab === 'manage-applications' && (
             <div className="job-cards-list">
@@ -329,6 +343,7 @@ function EmployerDashboard() {
             </div>
           )}
 
+          {/* Active job listings section, which is conditionally rendered when the "My Active Listings" tab is active. It displays the employer's current job listings with options to edit, toggle application status, or delete each listing. The section also includes loading states and messages for when there are no active listings. Each job card visually indicates whether the listing is open or closed, and provides clear actions for managing the listings effectively. */}
           {activeTab === 'my-listings' && (
             <div className="active-listings-container">
               {isLoadingJobs ? (
@@ -369,6 +384,7 @@ function EmployerDashboard() {
             </div>
           )}
 
+          {/* Job posting form section, which is conditionally rendered when the "Post a Job" tab is active. The form includes fields for job title, description, type, location, and hours per week, along with validation and error handling. It also supports both creating new job listings and editing existing ones, with appropriate success messages and state management to reflect changes in the UI. */}
           {activeTab === 'post-job' && (
             <div className="resource-display">
               <h3 className="resource-header">{editingJobId ? "Modify Job Listing" : "Post a New Job"}</h3>

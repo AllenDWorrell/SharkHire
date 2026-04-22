@@ -1,4 +1,4 @@
-// Root component – sets up React Router and renders page components
+//Root component – sets up React Router and renders page components
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -9,6 +9,7 @@ import StudentDashboard from './pages/StudentDashboard';
 import EmployerDashboard from './pages/EmployerDashboard';
 import AboutUs from './pages/AboutUs';
 
+//Function to get current user from localStorage, used for role-based route protection
 const getCurrentUser = () => {
   try {
     return JSON.parse(localStorage.getItem('user') || 'null');
@@ -17,6 +18,7 @@ const getCurrentUser = () => {
   }
 };
 
+//Function component to protect routes based on user role, redirecting to login if not authenticated or to appropriate dashboard if role doesn't match
 function RoleProtectedRoute({ allowedRoles, children }) {
   const user = getCurrentUser();
 
@@ -37,13 +39,13 @@ function RoleProtectedRoute({ allowedRoles, children }) {
   return children;
 }
 
+//Function component for the main App, setting up the layout with Navbar, Routes for different pages, and Footer. Uses flexbox to ensure footer stays at the bottom of the page even if content is short.
 function App() {
   return (
-    /* 2. Wrap in a div with flexbox to handle the sticky footer */
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Navbar />
       
-      {/* 3. flex: 1 ensures the main content area grows to fill space, pushing footer down */}
+      {/* Main content area where differennt pages will be rendered based on the route */}
       <main style={{ flex: '1' }}>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -72,7 +74,7 @@ function App() {
         </Routes>
       </main>
 
-      {/* 4. Footer sits at the very bottom */}
+      {/* Footer will always be at the bottom of the page. */}
       <Footer />
     </div>
   );
