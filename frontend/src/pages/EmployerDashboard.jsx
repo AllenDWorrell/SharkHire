@@ -305,10 +305,7 @@ function EmployerDashboard() {
                         <option value="accepted">Accepted</option>
                         <option value="rejected">Rejected</option>
                       </select>
-<<<<<<< HEAD
 
-=======
->>>>>>> f7ee5caae355536e1fd1c4018412b8228e53f067
                       {app.resumeId && (
                         <button
                           className="view-resume-btn"
@@ -356,13 +353,8 @@ function EmployerDashboard() {
                       </button>
 
                       <button
-<<<<<<< HEAD
                         className={`status-btn ${!job.isOpen ? 'reopen' : 'close'}`}
                         onClick={() => handleToggleStatus(job._id, job.isOpen)}
-=======
-                        className={`status-btn ${job.isClosed ? 'reopen' : 'close'}`}
-                        onClick={() => handleToggleStatus(job._id, job.isClosed)}
->>>>>>> f7ee5caae355536e1fd1c4018412b8228e53f067
                       >
                         {!job.isOpen ? '🔓 Open Applications' : '🔒 Close Applications'}
                       </button>
