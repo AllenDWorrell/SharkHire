@@ -25,16 +25,9 @@ function Navbar() {
     navigate('/');
   };
 
-  // Helper function to determine where the brand logo leads
-  const getBrandRedirect = () => {
-    if (!user) return "/";
-    return user.role === 'employer' ? '/employer-dashboard' : '/student-dashboard';
-  };
-
   return (
     <nav className="navbar">
-      {/* Brand link now dynamically redirects based on login status */}
-      <Link to={getBrandRedirect()} className="navbar__brand">
+      <Link to="/" className="navbar__brand">
         <img src={sharkFin} alt="SharkHire Home" className="navbar__logo"/>
         SharkHire 🦈
       </Link>
