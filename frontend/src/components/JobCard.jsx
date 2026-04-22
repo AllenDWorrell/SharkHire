@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { createApplication, uploadResume } from '../services/api';
 
 function JobCard({ job }) {
-  const { _id, title, type, location, hoursPerWeek, description } = job || {};
-  
+  const { _id, title, type, location, hoursPerWeek, description, isOpen } = job || {};
+
   const [isApplying, setIsApplying] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -77,7 +77,9 @@ function JobCard({ job }) {
       {error && <div className="error-msg">{error}</div>}
       {success && <div className="success-msg">{success}</div>}
 
-      {!showForm ? (
+      {isOpen === false ? (
+        <p className="closed-notice">Applications are currently closed for this position.</p>
+      ) : !showForm ? (
         <button className="apply-btn-main" onClick={() => setShowForm(true)}>Apply for this Position</button>
       ) : (
         <form onSubmit={handleApply} className="application-expanded-form">

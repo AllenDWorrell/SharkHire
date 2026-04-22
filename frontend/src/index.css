@@ -192,6 +192,14 @@ a {
   margin-bottom: 0.5rem;
 }
 
+.closed-notice {
+  color: #b00020;
+  font-weight: 600;
+  font-style: italic;
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+}
+
 /* --- Enhanced Job Description Readability --- */
 
 /* Targets the main text area of the job card */
